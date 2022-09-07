@@ -1,0 +1,119 @@
+object frmFileDlgFMX: TfrmFileDlgFMX
+  Left = 0
+  Top = 0
+  BorderStyle = Single
+  Caption = 'Form1'
+  ClientHeight = 401
+  ClientWidth = 531
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object lblDrives: TLabel
+    Position.X = 32.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 89.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'lblDrives'
+    TabOrder = 0
+  end
+  object lblDirectories: TLabel
+    Position.X = 32.000000000000000000
+    Position.Y = 56.000000000000000000
+    Text = 'lblDirectories'
+    TabOrder = 1
+  end
+  object lblFiles: TLabel
+    Position.X = 272.000000000000000000
+    Position.Y = 56.000000000000000000
+    Text = 'lblFiles'
+    TabOrder = 2
+  end
+  object lblFile: TLabel
+    Position.X = 32.000000000000000000
+    Position.Y = 312.000000000000000000
+    Text = 'lblFile'
+    TabOrder = 3
+  end
+  object cbxDrives: TComboBox
+    Position.X = 120.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 137.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    OnChange = cbxDrivesChange
+  end
+  object edtPath: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 5
+    Position.X = 272.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 225.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object lbDirectories: TListBox
+    Position.X = 32.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 224.000000000000000000
+    Size.Height = 233.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    OnDblClick = lbDirectoriesDblClick
+    DisableFocusEffect = True
+    DefaultItemStyles.ItemStyle = ''
+    DefaultItemStyles.GroupHeaderStyle = ''
+    DefaultItemStyles.GroupFooterStyle = ''
+    Viewport.Width = 220.000000000000000000
+    Viewport.Height = 229.000000000000000000
+  end
+  object lbFiles: TListBox
+    Position.X = 272.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 224.000000000000000000
+    Size.Height = 233.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 7
+    OnDblClick = lbFilesDblClick
+    DisableFocusEffect = True
+    DefaultItemStyles.ItemStyle = ''
+    DefaultItemStyles.GroupHeaderStyle = ''
+    DefaultItemStyles.GroupFooterStyle = ''
+    Viewport.Width = 220.000000000000000000
+    Viewport.Height = 229.000000000000000000
+  end
+  object edtFile: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 8
+    Position.X = 32.000000000000000000
+    Position.Y = 328.000000000000000000
+    Size.Width = 465.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object btnOk: TButton
+    Default = True
+    Position.X = 32.000000000000000000
+    Position.Y = 368.000000000000000000
+    Size.Width = 113.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 9
+    Text = 'btnOk'
+    OnClick = btnOkClick
+  end
+  object btnCancel: TButton
+    ModalResult = 2
+    Position.X = 160.000000000000000000
+    Position.Y = 368.000000000000000000
+    Size.Width = 113.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 10
+    Text = 'btnCancel'
+    OnClick = btnCancelClick
+  end
+end
