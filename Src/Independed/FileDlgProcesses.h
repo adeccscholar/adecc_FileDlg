@@ -7,16 +7,34 @@
 #include "MyForm.h"
 #include "MyTools.h"
 #include <string>
+
 //using mpOperations = std::map<std::string, std::function<void (TMyForm&)>>;
+
+class filedlg_exception : public std::exception {
+private:
+   std::string strSource;             ///< Ursprung des Fehlers
+   std::string strMessage;            ///< eigentliche Fehlermeldung
+   std::string strFunction;
+   std::string strFile;
+   size_t      iLine;
+   mutable std::string strWhat;  ///< Hilfsobjekt, um Lebensdauer von what() zu gewährleisten
+public:
+   filedlg_exception(std::string const& pSrc, std::string pMsg, 
+                     std::string const& pFunc, std::string const& pFile, size_t pLine) : std::exception(),
+              strSource(pSrc), strMessage(pMsg), strFunction(pFunc), strFile(pFile), iLine(pLine) { }
+ 
+   virtual const char* what() const noexcept;
+};
 
 /// process class for the fileopen - dialog
 class TFileDlgProcess {
    protected:
-      std::string strExceptInitForm;    ///< error message for exceprions during initialize the form
-      std::string strExceptReadDrive;   ///< error message for exceptions during initialize drives
-      std::string strPathFieldEmpty;    ///< error message if path field empty
-      std::string strDirectoriesEmpty;  ///< error message if directories unexpected empty
-      std::string strChangeDrivesEmpty; ///< eror message because drive empty during change
+      static inline std::string strExceptInitForm    = "error while initialization FileDlg";
+      static inline std::string strExceptReadDrive   = "error while reading the drives ...";
+      static inline std::string strPathFieldEmpty    = "path information can't processed, path is empty.";
+      static inline std::string strDirectoriesEmpty  = "listbox with directories is empty unexpected.";
+      static inline std::string strChangeDrivesEmpty = "drives box is empty while changing";
+      static inline std::string strMultipleFiles     = "multiple selections for files isn't supported";
 
       bool                  msg_toggle; ///< switch for framework messages
    public:
