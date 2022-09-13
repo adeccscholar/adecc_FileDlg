@@ -10,19 +10,22 @@
 
 //using mpOperations = std::map<std::string, std::function<void (TMyForm&)>>;
 
-class filedlg_exception : public std::exception {
+
+
+class my_filedlg_exception : public std::exception {
 private:
-   std::string strSource;             ///< Ursprung des Fehlers
-   std::string strMessage;            ///< eigentliche Fehlermeldung
-   std::string strFunction;
-   std::string strFile;
-   size_t      iLine;
+   std::string strSource;        ///< Ursprung des Fehlers
+   std::string strMessage;       ///< eigentliche Fehlermeldung
    mutable std::string strWhat;  ///< Hilfsobjekt, um Lebensdauer von what() zu gewährleisten
+   my_source_position thePosition;
 public:
-   filedlg_exception(std::string const& pSrc, std::string pMsg, 
+   my_filedlg_exception(std::string const& pSrc, std::string pMsg, 
                      std::string const& pFunc, std::string const& pFile, size_t pLine) : std::exception(),
-              strSource(pSrc), strMessage(pMsg), strFunction(pFunc), strFile(pFile), iLine(pLine) { }
- 
+              strSource(pSrc), strMessage(pMsg), thePosition(pFunc, pFile, pLine) { }
+
+   my_filedlg_exception(std::string const& pSrc, std::string pMsg, my_source_position && pPos) : std::exception(),
+              strSource(pSrc), strMessage(pMsg), thePosition(std::forward<my_source_position>(pPos)) { }
+
    virtual const char* what() const noexcept;
 };
 
@@ -51,7 +54,12 @@ class TFileDlgProcess {
       bool Execute(TMyForm& frm);
       void SetFileOrDirectory(TMyForm& frm, std::string const& strFile);
       std::string GetFileOrDirectory(TMyForm& frm);
+
+      void InitFileShowForm(TMyForm& frm, std::string const& strFile);
+private:
+
    };
+
 
 
 

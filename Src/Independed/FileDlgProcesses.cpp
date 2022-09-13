@@ -1,12 +1,17 @@
 ﻿//---------------------------------------------------------------------------
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+#include <codecvt>
 
 #include "FileDlgProcesses.h"
 
 #include "MyForm.h"
 #include "MyTools.h"
 
+
 #include <iostream>
+#include <locale>
 #include <sstream>
+#include <fstream>
 #include <exception>
 #include <filesystem>
 #include <algorithm>
@@ -17,10 +22,10 @@ namespace fs = std::filesystem;
 //#include "Wildcards.hpp"
 //#include "globmatch.hpp"
 
-const char* filedlg_exception::what() const noexcept {
+
+const char* my_filedlg_exception::what() const noexcept {
    std::ostringstream os;
-   os << strSource << ": " << strMessage 
-      << " [function" << strFunction << " in " << strFile << " at line " << iLine << "]";
+   os << strSource << ": " << strMessage << " " << thePosition;
    strWhat = os.str();
    return strWhat.c_str();
    }
@@ -35,13 +40,18 @@ void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
       frm.SetCaption("Datei auswählen .. ");
       frm.Set<EMyFrameworkType::label>     ("lblDrives",      "Laufwerk:");
       frm.Set<EMyFrameworkType::label>     ("lblDirectories", "Verzeichnisse:");
-      frm.Set<EMyFrameworkType::label>     ("lblFiles",       "Dateien:");
-      frm.Set<EMyFrameworkType::label>     ("lblFile",        "Datei:");
+
+      if(frm.Exists<EMyFrameworkType::listbox>("lbFiles")) {
+         frm.Set<EMyFrameworkType::label> ("lblFiles", "Dateien:");
+         frm.Set<EMyFrameworkType::label> ("lblFile",  "Datei:");
+         frm.Set<EMyFrameworkType::edit>  ("edtFile",  "");
+         frm.ReadOnly<EMyFrameworkType::edit>("edtPath", true);
+         }
+      else
+         frm.ReadOnly<EMyFrameworkType::edit>("edtPath", false);
 
       frm.Set<EMyFrameworkType::edit>      ("edtPath",        "");
-      frm.Set<EMyFrameworkType::edit>      ("edtFile",        "");
-      frm.ReadOnly<EMyFrameworkType::edit> ("edtPath",        true);
-
+      
       frm.Set<EMyFrameworkType::button>    ("btnOk",        "Übernehmen");
       frm.Set<EMyFrameworkType::button>    ("btnCancel",    "Abbruch");
 
@@ -79,7 +89,7 @@ void TFileDlgProcess::ChangeDrives(TMyForm& frm) {
       ChangeDirectory(frm);
       }
    else {
-      throw filedlg_exception("TFileDlgProcess", strChangeDrivesEmpty, __func__, __FILE__, __LINE__);
+      throw my_filedlg_exception("TFileDlgProcess", strChangeDrivesEmpty, MY_POSITION());
       }
    }
 
@@ -171,14 +181,14 @@ void TFileDlgProcess::ClickDirectory(TMyForm& frm) {
          frm.Set<EMyFrameworkType::edit>("edtPath", pa.string());
          ChangeDirectory(frm);
          }
-      else throw filedlg_exception("TFileDlgProcess", strPathFieldEmpty, __func__, __FILE__, __LINE__);
+      else throw my_filedlg_exception("TFileDlgProcess", strPathFieldEmpty, MY_POSITION());
       }
-   else throw filedlg_exception("TFileDlgProcess", strDirectoriesEmpty, __func__, __FILE__, __LINE__);
+   else throw my_filedlg_exception("TFileDlgProcess", strDirectoriesEmpty, MY_POSITION());
    }
 
 void TFileDlgProcess::ChangeFiles(TMyForm& frm) {
    auto selected = frm.GetSelectedRows<EMyFrameworkType::listbox>("lbFiles");
-   if(selected.size() > 1) throw filedlg_exception("TFileDlgProcess", strMultipleFiles, __func__, __FILE__, __LINE__);
+   if(selected.size() > 1) throw my_filedlg_exception("TFileDlgProcess", strMultipleFiles, MY_POSITION());
    if (selected.size() == 1) frm.Set<EMyFrameworkType::edit>("edtFile", frm.GetValue<EMyFrameworkType::listbox, std::string>("lbFiles", selected[0]));
    else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
    }
@@ -208,7 +218,7 @@ void TFileDlgProcess::SplitPath(TMyForm& frm) {
          strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath");
          }
 
-      if(!strDirectory) throw filedlg_exception("TFileDlgProcess", "path is empty or don't exist.", __func__, __FILE__, __LINE__);
+      if(!strDirectory) throw my_filedlg_exception("TFileDlgProcess", "path is empty or don't exist.", MY_POSITION());
       fs::path pa = *strDirectory;
 
       strDrive = std::make_optional(TMyTools::upper(pa.root_name().string()));
@@ -254,4 +264,26 @@ std::string TFileDlgProcess::GetFileOrDirectory(TMyForm& frm) {
       }
    return mypath.string();
    }
+
+void TFileDlgProcess::InitFileShowForm(TMyForm& frm, std::string const& strFile) {
+   frm.Set<EMyFrameworkType::button>("btnOk", "Schließen");
+   std::wostream mys(frm.GetAsStreamBuff<Wide, EMyFrameworkType::memo>("memFile"), true);
+   mys.imbue(std::locale());
+   frm.SetCaption(strFile);
+   std::wifstream ifs(strFile);
+   std::locale loc(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10FFFF, std::consume_header>);
+   ifs.imbue(loc);
+   if (!ifs.is_open()) {
+      std::ostringstream os;
+      os << "error while opening file \"" << strFile << "\".";
+      throw std::runtime_error(os.str().c_str());
+   }
+   const auto iSize = fs::file_size(strFile);
+   std::wstring strBuff(iSize, '\0');
+   ifs.read(strBuff.data(), iSize);
+   ifs.close();
+   mys << strBuff;
+   frm.SetPosition<EMyFrameworkType::memo>("memFile", 0u);
+   frm.ReadOnly<EMyFrameworkType::memo>("memFile", true);
+}
 
