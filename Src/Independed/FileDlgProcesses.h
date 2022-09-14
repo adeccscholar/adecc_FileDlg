@@ -55,7 +55,6 @@ class TFileDlgProcess {
       void SetFileOrDirectory(TMyForm& frm, std::string const& strFile);
       std::string GetFileOrDirectory(TMyForm& frm);
 
-      void InitFileShowForm(TMyForm& frm, std::string const& strFile);
 private:
 
    };

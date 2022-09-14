@@ -1,6 +1,5 @@
 ﻿//---------------------------------------------------------------------------
-#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
-#include <codecvt>
+
 
 #include "FileDlgProcesses.h"
 
@@ -11,7 +10,6 @@
 #include <iostream>
 #include <locale>
 #include <sstream>
-#include <fstream>
 #include <exception>
 #include <filesystem>
 #include <algorithm>
@@ -265,25 +263,4 @@ std::string TFileDlgProcess::GetFileOrDirectory(TMyForm& frm) {
    return mypath.string();
    }
 
-void TFileDlgProcess::InitFileShowForm(TMyForm& frm, std::string const& strFile) {
-   frm.Set<EMyFrameworkType::button>("btnOk", "Schließen");
-   std::wostream mys(frm.GetAsStreamBuff<Wide, EMyFrameworkType::memo>("memFile"), true);
-   mys.imbue(std::locale());
-   frm.SetCaption(strFile);
-   std::wifstream ifs(strFile);
-   std::locale loc(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10FFFF, std::consume_header>);
-   ifs.imbue(loc);
-   if (!ifs.is_open()) {
-      std::ostringstream os;
-      os << "error while opening file \"" << strFile << "\".";
-      throw std::runtime_error(os.str().c_str());
-   }
-   const auto iSize = fs::file_size(strFile);
-   std::wstring strBuff(iSize, '\0');
-   ifs.read(strBuff.data(), iSize);
-   ifs.close();
-   mys << strBuff;
-   frm.SetPosition<EMyFrameworkType::memo>("memFile", 0u);
-   frm.ReadOnly<EMyFrameworkType::memo>("memFile", true);
-}
 
