@@ -141,19 +141,24 @@ std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& 
    std::optional<std::string> strRetPath = {};
    bool boRetVal = false;
       
-   auto form = CreateFileDlg(theFileDlgProcess);
-   theFileDlgProcess.InitFileDlg(form);
-   if (path) {
-      theFileDlgProcess.SetFileOrDirectory(form, *path);
-      switch (auto ret = form.ShowModal(); ret) {
-         case EMyRetResults::ok:
-            return std::make_pair(ret, theFileDlgProcess.GetFileOrDirectory(form));
-         default:
-            return std::make_pair(ret, ""s);
+   try {
+      auto form = CreateFileDlg(theFileDlgProcess);
+      theFileDlgProcess.InitFileDlg(form);
+      if (path) {
+         theFileDlgProcess.SetFileOrDirectory(form, *path);
+         switch (auto ret = form.ShowModal(); ret) {
+            case EMyRetResults::ok:
+               return std::make_pair(ret, theFileDlgProcess.GetFileOrDirectory(form));
+            default:
+               return std::make_pair(ret, ""s);
+            }
+         }
+      else {
+         return std::make_pair(EMyRetResults::error, "path is empty or invalid."s);
          }
       }
-   else {
-      return std::make_pair(EMyRetResults::error, "path is empty or invalid."s);
+   catch(std::exception const& ex) {
+      return std::make_pair(EMyRetResults::error, ex.what());
       }
    }
 
