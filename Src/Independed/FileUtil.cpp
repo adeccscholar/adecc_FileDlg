@@ -113,6 +113,7 @@ size_t Find(std::vector<fs::path>& ret, fs::path const& dir, std::set<std::strin
    }
 
 
+/*
 size_t CheckFileSize(fs::path const& strFile) {
    size_t ret = 0u;
    try {
@@ -135,7 +136,7 @@ size_t CheckFileSize(fs::path const& strFile) {
    return ret;
    }
 
-
+*/
 
 
 

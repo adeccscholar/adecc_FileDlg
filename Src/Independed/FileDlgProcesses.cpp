@@ -6,6 +6,7 @@
 #include "MyForm.h"
 #include "MyTools.h"
 
+#include <MyFileException.h>
 
 #include <iostream>
 #include <locale>
@@ -20,13 +21,6 @@ namespace fs = std::filesystem;
 //#include "Wildcards.hpp"
 //#include "globmatch.hpp"
 
-
-const char* my_filedlg_exception::what() const noexcept {
-   std::ostringstream os;
-   os << strSource << ": " << strMessage << " " << thePosition;
-   strWhat = os.str();
-   return strWhat.c_str();
-   }
 
 //---------------------------------------------------------------------------
 
