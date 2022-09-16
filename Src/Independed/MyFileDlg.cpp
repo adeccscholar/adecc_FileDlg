@@ -188,12 +188,13 @@ void TMyFileDlg::TMyFileDlg::InitFileShowForm(TMyForm& frm, std::string const& s
 
 void TMyFileDlg::LoadFile(std::wostream& stream, std::string const& strFile) {
    std::wifstream ifs;
-   //ifs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-   ifs.exceptions(std::ifstream::badbit);
+   ifs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+   //ifs.exceptions(std::ifstream::badbit);
    try {
       std::locale loc(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10FFFF, std::consume_header>);
       ifs.imbue(loc);
       ifs.open(strFile);
+      if(!ifs.is_open()) throw std::system_error(errno, std::generic_category(), strFile);  // if std::ifstream::failbit isn't set
       const auto iSize = fs::file_size(strFile);
       std::wstring strBuff(iSize, '\0');
       ifs.read(strBuff.data(), iSize);
@@ -201,7 +202,10 @@ void TMyFileDlg::LoadFile(std::wostream& stream, std::string const& strFile) {
       stream << strBuff;
       }
    catch(std::ios_base::failure const& ex) {
-      throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
+      if (ex.code() == std::make_error_condition(std::io_errc::stream))
+         throw my_file_runtime_error(strFile, static_cast<std::errc>(errno), MY_POSITION());
+      else
+         throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
       }
    catch (std::system_error const& ex) {
       throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
@@ -213,8 +217,8 @@ void TMyFileDlg::LoadFile(std::wostream& stream, std::string const& strFile) {
 
 const char* my_file_runtime_error::what() const noexcept {
    std::ostringstream os;
-   os << "error with file \"" << strFile << "\": "
-      << std::runtime_error::what() << " " << thePosition;
+   os << "Error accessing the file \"" << strFile << "\":\n"
+      << std::runtime_error::what() << "\n\n" << thePosition;
    strWhat = os.str();
    return strWhat.c_str();
 }
