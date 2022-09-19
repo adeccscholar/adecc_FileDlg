@@ -2,8 +2,8 @@ object frmFileShowVCL: TfrmFileShowVCL
   Left = 162
   Top = 163
   Caption = 'frmFileShowVCL'
-  ClientHeight = 929
-  ClientWidth = 1307
+  ClientHeight = 1441
+  ClientWidth = 2495
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,8 +16,8 @@ object frmFileShowVCL: TfrmFileShowVCL
   object memFile: TMemo
     Left = 0
     Top = 0
-    Width = 1307
-    Height = 843
+    Width = 2495
+    Height = 1355
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -33,11 +33,13 @@ object frmFileShowVCL: TfrmFileShowVCL
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 0
+    ExplicitWidth = 1307
+    ExplicitHeight = 843
   end
   object pnlCtrl: TPanel
     Left = 0
-    Top = 843
-    Width = 1307
+    Top = 1355
+    Width = 2495
     Height = 86
     Margins.Left = 6
     Margins.Top = 6
@@ -45,6 +47,8 @@ object frmFileShowVCL: TfrmFileShowVCL
     Margins.Bottom = 6
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 843
+    ExplicitWidth = 1307
     object btnOk: TButton
       Left = 34
       Top = 12

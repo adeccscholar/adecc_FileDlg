@@ -1,4 +1,7 @@
-﻿#include <MyStdTypes.h>
+﻿#ifndef MyFileExceptionH
+#define MyFileExceptionH
+
+#include <MyStdTypes.h>
 
 #include <string>
 #include <stdexcept>
@@ -51,8 +54,11 @@ public:
    my_file_runtime_error(std::string const& pSrc, std::errc value, my_source_position&& pPos) : std::runtime_error(errc_messages[value].second),
       my_file_information(pSrc, value), thePosition(std::forward<my_source_position>(pPos)) { }
 
-   my_file_runtime_error(std::string const& pSrc, my_file_information const& info, my_source_position&& pPos) 
+   my_file_runtime_error(my_file_information const& info, my_source_position&& pPos) 
           : std::runtime_error(info.GetInformation()), my_file_information(info), thePosition(std::forward<my_source_position>(pPos)) { }
 
    virtual const char* what() const noexcept;
 };
+
+#endif
+

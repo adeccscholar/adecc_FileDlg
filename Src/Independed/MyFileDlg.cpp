@@ -27,7 +27,7 @@
 namespace fs = std::filesystem;
 
 
-
+TFileDlgProcess TMyFileDlg::theFileDlgProcess;
 
 void TMyFileDlg::OpenFileAction(TMyForm& call_form, std::string const& strFile) {
    try {
@@ -65,17 +65,17 @@ std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& 
    try {
       auto form = CreateFileDlg(theFileDlgProcess);
       theFileDlgProcess.InitFileDlg(form);
-      if (path) {
-         theFileDlgProcess.SetFileOrDirectory(form, *path);
-         switch (auto ret = form.ShowModal(); ret) {
-            case EMyRetResults::ok:
-               return std::make_pair(ret, theFileDlgProcess.GetFileOrDirectory(form));
-            default:
-               return std::make_pair(ret, ""s);
-            }
+      if (!path) {
+         return std::make_pair(EMyRetResults::error, "path is empty."s);
          }
-      else {
-         return std::make_pair(EMyRetResults::error, "path is empty or invalid."s);
+
+
+      theFileDlgProcess.SetFileOrDirectory(form, *path);
+      switch (auto ret = form.ShowModal(); ret) {
+         case EMyRetResults::ok:
+            return std::make_pair(ret, theFileDlgProcess.GetFileOrDirectory(form));
+         default:
+            return std::make_pair(ret, ""s);
          }
       }
    catch(std::exception const& ex) {
@@ -117,7 +117,7 @@ std::tuple<std::wifstream, const size_t> TMyFileDlg::OpenInputFile(std::string c
       ifs.open(strFile);
       if (!ifs.is_open()) throw std::system_error(errno, std::generic_category(), strFile);  // if std::ifstream::failbit isn't set
       const size_t iSize = fs::file_size(strFile);
-      ifs.exceptions(0);
+     ifs.exceptions(std::ifstream::goodbit);
       return { std::forward< std::wifstream>(ifs), iSize };
       }
    catch (std::ios_base::failure const& ex) {
@@ -129,19 +129,20 @@ std::tuple<std::wifstream, const size_t> TMyFileDlg::OpenInputFile(std::string c
    catch (std::system_error const& ex) {
       throw my_file_information(strFile, static_cast<std::errc>(ex.code().value()));
    }
-
-   //return { ifs, 0u };
+   // can't reach because in each catch a new exception thrown
 }
+
 
 void TMyFileDlg::LoadFile(std::wostream& stream, std::string const& strFile) {
    try {
-      //std::wifstream ifs;
       auto [ifs, iSize] = OpenInputFile(strFile);
-
       std::wstring strBuff(iSize, '\0');
       ifs.read(strBuff.data(), iSize);
       ifs.close();
       stream << strBuff;
+      }
+   catch (my_file_information const& ex) {
+      throw my_file_runtime_error(ex, MY_POSITION());
       }
    catch(std::ios_base::failure const& ex) {
       if (ex.code() == std::make_error_condition(std::io_errc::stream))
@@ -164,32 +165,3 @@ size_t TMyFileDlg::CheckFileSize(std::string const& strFile) {
 }
 
  
-/*
-void TMyFileDlg::LoadFile(std::wostream& stream, std::string const& strFile) {
-   std::wifstream ifs;
-   ifs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-   //ifs.exceptions(std::ifstream::badbit);
-   try {
-      std::locale loc(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10FFFF, std::consume_header>);
-      ifs.imbue(loc);
-      ifs.open(strFile);
-      if (!ifs.is_open()) throw std::system_error(errno, std::generic_category(), strFile);  // if std::ifstream::failbit isn't set
-      const auto iSize = fs::file_size(strFile);
-      ifs.exceptions(0);
-      std::wstring strBuff(iSize, '\0');
-      ifs.read(strBuff.data(), iSize);
-      ifs.close();
-      stream << strBuff;
-   }
-   catch (std::ios_base::failure const& ex) {
-      if (ex.code() == std::make_error_condition(std::io_errc::stream))
-         throw my_file_runtime_error(strFile, static_cast<std::errc>(errno), MY_POSITION());
-      else
-         throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
-   }
-   catch (std::system_error const& ex) {
-      throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
-   }
-
-}
-*/

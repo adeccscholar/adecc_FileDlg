@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <sstream>
 #include <functional>
+#include <iterator>
 //---------------------------------------------------------------------------
 
 

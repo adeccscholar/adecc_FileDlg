@@ -3,8 +3,8 @@ object frmFileDlgFMX: TfrmFileDlgFMX
   Top = 0
   BorderStyle = Single
   Caption = 'Form1'
-  ClientHeight = 401
-  ClientWidth = 531
+  ClientHeight = 404
+  ClientWidth = 523
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
