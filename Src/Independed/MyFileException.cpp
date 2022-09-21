@@ -3,7 +3,7 @@
 #include <sstream>
 using namespace std::string_literals;
 
-std::map<std::errc, std::pair<std::string, std::string>> my_file_information::errc_messages = {
+std::map<std::errc, std::pair<std::string, std::string>> MyFileLibAPI my_file_information::errc_messages = {
       { std::errc::address_family_not_supported,       { "EAFNOSUPPORT"s,    "address family not supported"s } },
       { std::errc::address_in_use,                     { "EADDRINUSE"s,      "address in use"s } },
       { std::errc::address_not_available,              { "EADDRNOTAVAIL"s,   "address not available"s } },

@@ -1,6 +1,7 @@
 ﻿#ifndef MyFileExceptionH
 #define MyFileExceptionH
 
+#include <BuildFileDlg.h>
 #include <MyStdTypes.h>
 
 #include <string>
@@ -9,7 +10,7 @@
 #include <utility>
 #include <system_error>
 
-class my_filedlg_exception : public std::exception {
+class MyFileLibAPI my_filedlg_exception : public std::exception {
 private:
    std::string strSource;        ///< Ursprung des Fehlers
    std::string strMessage;       ///< eigentliche Fehlermeldung
@@ -26,7 +27,7 @@ public:
    virtual const char* what() const noexcept;
 };
 
-class my_file_information {
+class MyFileLibAPI my_file_information {
 protected:
    std::string strFile;          ///< Ursprung des Fehlers
    std::errc  error_code;
@@ -38,7 +39,7 @@ public:
 };
 
 
-class my_file_runtime_error : public std::runtime_error, public my_file_information {
+class MyFileLibAPI my_file_runtime_error : public std::runtime_error, public my_file_information {
 private:
    mutable std::string strWhat;  ///< Hilfsobjekt, um Lebensdauer von what() zu gewährleisten
    my_source_position thePosition;

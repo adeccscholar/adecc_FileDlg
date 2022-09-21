@@ -27,7 +27,7 @@
 namespace fs = std::filesystem;
 
 
-TFileDlgProcess TMyFileDlg::theFileDlgProcess;
+TFileDlgProcess MyFileLibAPI TMyFileDlg::theFileDlgProcess;
 
 void TMyFileDlg::OpenFileAction(TMyForm& call_form, std::string const& strFile) {
    try {

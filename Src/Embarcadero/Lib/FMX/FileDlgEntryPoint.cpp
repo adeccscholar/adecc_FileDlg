@@ -17,15 +17,13 @@
 //   Wenn Ihre DLL die dynamische Version der RTL verwendet, müssen Sie MEMMGR.LIB
 //   nicht explizit hinzufügen, weil dies implizit ausgeführt wird.
 
-#include <vcl.h>
-#include <windows.h>
+#include <fmx.h>
 
 #pragma hdrstop
 #pragma argsused
 
-// BUILD_FILEDLG_DLL
-
-int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved) {
+extern "C" int _libmain(unsigned long reason)
+{
 	return 1;
-   }
+}
 
