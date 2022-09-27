@@ -39,19 +39,16 @@ public:
 };
 
 
+class MyFileLibAPI my_file_dlg_error : public std::runtime_error {
+public:
+   my_file_dlg_error(std::string const& pMsg) : std::runtime_error(pMsg) { }
+};
+
 class MyFileLibAPI my_file_runtime_error : public std::runtime_error, public my_file_information {
 private:
    mutable std::string strWhat;  ///< Hilfsobjekt, um Lebensdauer von what() zu gewährleisten
    my_source_position thePosition;
 public:
-   /*
-   my_file_runtime_error(std::string const& pSrc, std::string pMsg,
-      std::string const& pFunc, std::string const& pFile, size_t pLine) : std::runtime_error(pMsg),
-      strFile(pSrc), thePosition(pFunc, pFile, pLine) { }
-
-   my_file_runtime_error(std::string const& pSrc, std::string pMsg, my_source_position&& pPos) : std::runtime_error(pMsg),
-      strFile(pSrc), thePosition(std::forward<my_source_position>(pPos)) { }
-   */
    my_file_runtime_error(std::string const& pSrc, std::errc value, my_source_position&& pPos) : std::runtime_error(errc_messages[value].second),
       my_file_information(pSrc, value), thePosition(std::forward<my_source_position>(pPos)) { }
 

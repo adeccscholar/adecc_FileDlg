@@ -23,6 +23,11 @@ namespace fs = std::filesystem;
 
 
 //---------------------------------------------------------------------------
+TFileDlgProcess::TFileDlgProcess(bool boDirOnly, bool boCaseSense) {
+   msg_toggle = false;
+   boDirectory_only = boDirOnly;
+   boCaseSensitive = boCaseSense; 
+   }
 
 /// initialize the elements for the form to chose a file
 void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
@@ -37,6 +42,7 @@ void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
          frm.Set<EMyFrameworkType::label> ("lblFiles", "Dateien:");
          frm.Set<EMyFrameworkType::label> ("lblFile",  "Datei:");
          frm.Set<EMyFrameworkType::edit>  ("edtFile",  "");
+         frm.ReadOnly<EMyFrameworkType::edit>("edtFile", false);
          frm.ReadOnly<EMyFrameworkType::edit>("edtPath", true);
          }
       else
@@ -80,9 +86,12 @@ void TFileDlgProcess::ChangeDrives(TMyForm& frm) {
       frm.Set<EMyFrameworkType::edit>("edtPath", strDrive);
       ChangeDirectory(frm);
       }
+   #if !defined BUILD_WITH_FMX
+   // !!!!! Problems with fmx events
    else {
       throw my_filedlg_exception("TFileDlgProcess", strChangeDrivesEmpty, MY_POSITION());
       }
+   #endif
    }
 
 // ----------------------------------------------------------------------------
@@ -101,8 +110,11 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
          std::vector<fs::path> files;
          std::copy(fs::directory_iterator(myPath), fs::directory_iterator(), std::back_inserter(files));
 
+#if defined __BORLANDC__
          auto it1 = std::partition(files.begin(), files.end(), [](auto const& p) { return fs::is_directory(p); });
-
+#else         
+         auto it1 = std::partition(std::execution::par, files.begin(), files.end(), [](auto const& p) { return fs::is_directory(p); });
+#endif
          std::ostream out(frm.GetAsStreamBuff<Narrow, EMyFrameworkType::listbox>("lbDirectories"));
 
          std::sort(files.begin(), it1,
@@ -146,18 +158,22 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
       }
    }
 
+void TFileDlgProcess::ChangeFiles(TMyForm& frm) {
+   auto selected = frm.GetSelectedRows<EMyFrameworkType::listbox>("lbFiles");
+   if (selected.size() > 1u) throw my_filedlg_exception("TFileDlgProcess", strMultipleFiles, MY_POSITION());
+   if (selected.size() == 1u) frm.Set<EMyFrameworkType::edit>("edtFile", frm.GetValue<EMyFrameworkType::listbox, std::string>("lbFiles", selected[0]));
+   else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
+}
+
 
 bool TFileDlgProcess::Execute(TMyForm& frm) {
-   bool boRetVal = false;
-   SplitPath(frm);
-   if(auto strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath"); strDirectory) {
-      if(auto strFile = frm.Get<EMyFrameworkType::edit, std::string>("edtFile"); strFile) {
-         if(!TMyTools::contain(*strFile, "*?")) {
-            return true;
-            }
-         }
+   try {
+      strFileOrDirectory = BuildPath(frm);
       }
-   return boRetVal;
+   catch(my_file_dlg_error const& ex) {
+      return false;
+      }
+   return true;
    }
 
 
@@ -178,83 +194,45 @@ void TFileDlgProcess::ClickDirectory(TMyForm& frm) {
    else throw my_filedlg_exception("TFileDlgProcess", strDirectoriesEmpty, MY_POSITION());
    }
 
-void TFileDlgProcess::ChangeFiles(TMyForm& frm) {
-   auto selected = frm.GetSelectedRows<EMyFrameworkType::listbox>("lbFiles");
-   if(selected.size() > 1) throw my_filedlg_exception("TFileDlgProcess", strMultipleFiles, MY_POSITION());
-   if (selected.size() == 1) frm.Set<EMyFrameworkType::edit>("edtFile", frm.GetValue<EMyFrameworkType::listbox, std::string>("lbFiles", selected[0]));
-   else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
+
+std::string TFileDlgProcess::BuildPath(TMyForm& frm) {
+   auto strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath");
+   fs::path retPath;
+   if (!strDirectory) throw my_file_dlg_error("Can't build filename, field for directory is empty.");
+   else retPath = *strDirectory;
+   if(!boDirectory_only) {
+      auto strFilename  = frm.Get<EMyFrameworkType::edit, std::string>("edtFile");
+      if (!strFilename) throw my_file_dlg_error("Can't build filename, field for filename is empty.");
+      else {
+         //static std::string strMatcher = "*?";
+         //if (TMyTools::contain(*strFilename, strMatcher) == true) {
+
+         retPath /= *strFilename;
+         }
+      }
+   return fs::canonical(retPath).string();
    }
 
 
-/// processing the chosen path and split it in the components
-void TFileDlgProcess::SplitPath(TMyForm& frm) {
-   msg_toggle = false;
-   try {
-      std::optional<std::string> strDirectory;
-      std::optional<std::string> strDrive;
-      std::optional<std::string> strFilename;
-      std::optional<std::string> strDir;
-      std::optional<std::string> strPath;
-
-      if(auto strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtFile"); strDirectory) {
-         if(fs::path check = *strDirectory; check.root_name() != fs::path("")) {
-            strFilename = frm.Get<EMyFrameworkType::edit, std::string>("edtFile");
-            frm.Set<EMyFrameworkType::edit>("edtFile", "");
-            frm.Set<EMyFrameworkType::edit>("edtPath", strDirectory);   /// !!!!! Fehler
-            }
-         else {
-            strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath");
-            }
-         }
-      else {
-         strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath");
-         }
-
-      if(!strDirectory) throw my_filedlg_exception("TFileDlgProcess", "path is empty or don't exist.", MY_POSITION());
-      fs::path pa = *strDirectory;
-
-      strDrive = std::make_optional(TMyTools::upper(pa.root_name().string()));
-      if(fs::is_directory(pa)) {
-         strDir      = std::make_optional(pa.filename().string());
-         strPath     = std::make_optional(pa.parent_path().string());
-
-         frm.Set<EMyFrameworkType::combobox>("cbxDrives", strDrive);
-         frm.Set<EMyFrameworkType::edit>("edtPath", pa.string());
-         }
-      else {
-         strFilename = make_optional(pa.filename().string());
-         strPath     = make_optional(pa.parent_path().string());
-
-         frm.Set<EMyFrameworkType::combobox>("cbxDrives", strDrive);
-         frm.Set<EMyFrameworkType::edit>("edtPath", pa.parent_path().string());
-         frm.Set<EMyFrameworkType::edit>("edtFile", pa.filename().string());
-         }
-
-      ChangeDirectory(frm);
-      }
-   catch(std::exception &ex) {
-      std::cerr << "error while splitting the path in function SplitPath" << std::endl
-           << ex.what() << std::endl;
-      }
-   msg_toggle = true;
-   }
-
-
-void TFileDlgProcess::SetFileOrDirectory(TMyForm& frm, std::string const& strFile) {
+void TFileDlgProcess::SetFile(TMyForm& frm, std::string const& strFile) {
    frm.Set<EMyFrameworkType::edit>("edtFile", strFile);
-   SplitPath(frm);
-   return;
+   frm.SetListBox("lbFiles", strFile); 
    }
 
-std::string TFileDlgProcess::GetFileOrDirectory(TMyForm& frm) {
-   fs::path mypath;
-   if(auto strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath"); strDirectory) {
-      mypath = *strDirectory;
-      if(auto strFile = frm.Get<EMyFrameworkType::edit, std::string>("edtFile"); strFile) {
-         mypath /= fs::path(*strFile);
-         }
-      }
-   return mypath.string();
+void TFileDlgProcess::SetDirectory(TMyForm& frm, std::string const& strFile) {
+   frm.Set<EMyFrameworkType::edit>("edtPath", strFile);
+   ChangeDirectory(frm);
+   }
+
+void TFileDlgProcess::SetRoot(TMyForm& frm, std::string const& strRoot) {
+   frm.Set<EMyFrameworkType::combobox>("cbxDrives", strRoot);
+   ChangeDrives(frm);
+   }
+
+
+
+std::string const& TFileDlgProcess::GetFileOrDirectory(TMyForm& frm) {
+   return strFileOrDirectory;
    }
 
 

@@ -34,6 +34,7 @@ __published:	// Von der IDE verwaltete Komponenten
    void __fastcall lbFilesDblClick(TObject *Sender);
    void __fastcall btnOkClick(TObject *Sender);
    void __fastcall btnCancelClick(TObject *Sender);
+   void __fastcall lbFilesClick(TObject *Sender);
 private:	// Benutzer-Deklarationen
    TFileDlgProcess& process;
    TMyForm          frm;

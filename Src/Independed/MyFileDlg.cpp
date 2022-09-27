@@ -27,8 +27,6 @@
 namespace fs = std::filesystem;
 
 
-TFileDlgProcess MyFileLibAPI TMyFileDlg::theFileDlgProcess;
-
 void TMyFileDlg::OpenFileAction(TMyForm& call_form, std::string const& strFile) {
    try {
       auto frm = CreateShowFile();
@@ -61,16 +59,52 @@ TMyForm TMyFileDlg::CreateShowFile() {
 std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& caller_frm, std::optional<std::string> const& path) {
    std::optional<std::string> strRetPath = {};
    bool boRetVal = false;
-      
+   TFileDlgProcess theFileDlgProcess(false, false);
+
    try {
+      if(!path) return std::make_pair(EMyRetResults::error, "path parameter is empty.");
+      fs::path fsPath = *path;
+
       auto form = CreateFileDlg(theFileDlgProcess);
       theFileDlgProcess.InitFileDlg(form);
-      if (!path) {
-         return std::make_pair(EMyRetResults::error, "path is empty."s);
+
+         if(fsPath.is_absolute()) {
+         if(fs::exists(fsPath)) {
+            if(fs::is_directory(fsPath)) {
+               if (fsPath.has_root_name()) {
+                  theFileDlgProcess.SetRoot(form, TMyTools::upper(fsPath.root_name().string()));
+                  }
+               theFileDlgProcess.SetDirectory(form, fsPath.string());
+               }
+            else if(fs::is_regular_file(fsPath)) {
+               if (fsPath.has_root_name()) {
+                  theFileDlgProcess.SetRoot(form, TMyTools::upper(fsPath.root_name().string()));
+                  }
+               theFileDlgProcess.SetDirectory(form, fsPath.parent_path().string());
+               theFileDlgProcess.SetFile(form, fsPath.filename().string());
+               }
+            else {
+               std::ostringstream os;
+               os << "device \"" << fsPath.string() << "\" exist, but can't use for this dialog.";
+               return std::make_pair(EMyRetResults::error, os.str());
+               }
+            }
+         else { // path is absolut, but don't exist, checking if parent directory exist
+            if (fsPath.has_parent_path() && fs::exists(fsPath.parent_path())) {
+               if (fsPath.parent_path().has_root_name()) {
+                  theFileDlgProcess.SetRoot(form, TMyTools::upper(fsPath.parent_path().root_name().string()));
+                  }
+               theFileDlgProcess.SetDirectory(form, fsPath.parent_path().string());
+               theFileDlgProcess.SetFile(form, fsPath.filename().string());
+               }
+            else {
+               std::ostringstream os;
+               os << "parent directory for the absolute path \"" << fsPath.string() << "\" don't exist.";
+               return std::make_pair(EMyRetResults::error, os.str());
+               }
+            }
          }
-
-
-      theFileDlgProcess.SetFileOrDirectory(form, *path);
+   
       switch (auto ret = form.ShowModal(); ret) {
          case EMyRetResults::ok:
             return std::make_pair(ret, theFileDlgProcess.GetFileOrDirectory(form));

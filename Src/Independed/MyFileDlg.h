@@ -22,8 +22,6 @@ class MyFileLibAPI TMyFileDlg {
       static std::tuple<std::wifstream, const size_t> OpenInputFile(std::string const& strFile);
 
    private:
-      static TFileDlgProcess theFileDlgProcess;
-
       static void InitFileShowForm(TMyForm& frm, std::string const& strFile);
       static TMyForm CreateShowFile();
       static TMyForm CreateFileDlg(TFileDlgProcess& proc);

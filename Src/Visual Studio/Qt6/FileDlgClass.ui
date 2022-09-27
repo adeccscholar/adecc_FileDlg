@@ -15,7 +15,11 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0">
    <item row="2" column="1">
-    <widget class="QListWidget" name="lbFiles"/>
+    <widget class="QListWidget" name="lbFiles">
+     <property name="selectionRectVisible">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="lblFile">
@@ -32,7 +36,11 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QListWidget" name="lbDirectories"/>
+    <widget class="QListWidget" name="lbDirectories">
+     <property name="selectionRectVisible">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="0" column="1">
     <widget class="QLineEdit" name="edtPath">
@@ -64,7 +72,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QComboBox" name="cbxDrives"/>
+      <widget class="QComboBox" name="cbxDrives">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

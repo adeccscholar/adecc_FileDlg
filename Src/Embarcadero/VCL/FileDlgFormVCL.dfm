@@ -94,6 +94,7 @@ object frmFileDlg: TfrmFileDlg
     Margins.Bottom = 6
     ItemHeight = 28
     TabOrder = 2
+    OnClick = lbFilesClick
     OnDblClick = lbFilesDblClick
   end
   object edtFile: TEdit

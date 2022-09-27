@@ -5,45 +5,17 @@ FileDlgClass::FileDlgClass(TFileDlgProcess& proc, QWidget *parent)
     ui.setupUi(this);
     frm.Set(this, false);
 
-    connect(ui.cbxDrives,     SIGNAL(currentIndexChanged(int)), this, SLOT(DrivesChanged(int)));
-    connect(ui.lbDirectories, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(DirectoriesDblClick(QListWidgetItem*)));
-    connect(ui.lbFiles,       SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(FilesDblClick(QListWidgetItem*)));
-    connect(ui.lbFiles,       SIGNAL(currentRowChanged(int)), this, SLOT(FilesChange(int)));
-    connect(ui.btnOk,         SIGNAL(clicked()), this, SLOT(FinishEvent()));
-    connect(ui.btnCancel,     SIGNAL(clicked()), this, SLOT(CancelEvent()));
+    connect(ui.cbxDrives, &QComboBox::currentIndexChanged,        this, [this]() { if (boEventsStarted) this->process.ChangeDrives(frm); } );
+    connect(ui.lbDirectories, &QListWidget::itemDoubleClicked,    this, [this]() { if (boEventsStarted) this->process.ClickDirectory(frm); });
+    connect(ui.lbFiles,       &QListWidget::itemDoubleClicked,    this, [this]() { if (boEventsStarted) this->process.ChangeFiles(frm);
+                                                                                   if (this->process.Execute(frm)) accept();
+                                                                                 });
+    connect(ui.lbFiles,       &QListWidget::itemSelectionChanged, this, [this]() { if (this->boEventsStarted) this->process.ChangeFiles(frm); });
+    connect(ui.btnOk,         &QPushButton::clicked,              this, [this]() { if (this->process.Execute(frm)) accept(); });
+    connect(ui.btnCancel,     &QPushButton::clicked,              this, [this]() { reject(); });
     boEventsStarted = true;
    }
 
 
 FileDlgClass::~FileDlgClass() {
    }
-
-
-void FileDlgClass::DrivesChanged(int index) {
-   if(boEventsStarted) process.ChangeDrives(frm);
-   }
-
-void FileDlgClass::FilesChange(int currentRow) {
-   if (boEventsStarted) process.ChangeFiles(frm);
-}
-
-void FileDlgClass::DirectoriesDblClick(QListWidgetItem* item) {
-   if(boEventsStarted) process.ClickDirectory(frm);
-}
-
-void FileDlgClass::FilesDblClick(QListWidgetItem* item) {
-   if (boEventsStarted) {
-      process.ChangeFiles(frm);
-      accept();
-      }
-   }
-
-
-void FileDlgClass::FinishEvent(void) {
-   if (process.Execute(frm)) accept();
-   }
-
-void FileDlgClass::CancelEvent(void) {
-   reject();
-   }
-//----

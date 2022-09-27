@@ -20,21 +20,32 @@ class TFileDlgProcess {
       static inline std::string strChangeDrivesEmpty = "drives box is empty while changing";
       static inline std::string strMultipleFiles     = "multiple selections for files isn't supported";
 
-      bool                  msg_toggle; ///< switch for framework messages
+      bool                  msg_toggle       = false; ///< switch for framework messages
+      bool                  boDirectory_only = false; ///< only directories to chose
+      bool                  boCaseSensitive  = false; ///< are names casesensitive? 
+      std::string           strFileOrDirectory = "";  ///< choosen file or directory for return
    public:
+      TFileDlgProcess() = default;
+      TFileDlgProcess(bool, bool);
+      TFileDlgProcess(TFileDlgProcess const&) = delete;
+      TFileDlgProcess(TFileDlgProcess&&) = delete;
+      ~TFileDlgProcess() = default;
       void InitFileDlg(TMyForm& frm);
       void InitDrives(TMyForm& frm);
       void ChangeDirectory(TMyForm& frm);
       void ClickDirectory(TMyForm& frm);
       void ChangeDrives(TMyForm& frm);
       void ChangeFiles(TMyForm& frm);
-      void SplitPath(TMyForm& frm);
+      std::string BuildPath(TMyForm& frm);
       void Backward(TMyForm& frm);
 
       bool FireMessages(void) { return msg_toggle; }
       bool Execute(TMyForm& frm);
-      void SetFileOrDirectory(TMyForm& frm, std::string const& strFile);
-      std::string GetFileOrDirectory(TMyForm& frm);
+      void SetFile(TMyForm& frm, std::string const& strFile);
+      void SetDirectory(TMyForm& frm, std::string const& strFile);
+      void SetRoot(TMyForm& frm, std::string const& strRoot);
+
+      std::string const& GetFileOrDirectory(TMyForm& frm);
 
 private:
 

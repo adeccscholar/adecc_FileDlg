@@ -28,7 +28,8 @@ void __fastcall TfrmFileDlgFMX::lbDirectoriesDblClick(TObject *Sender) {
 //---------------------------------------------------------------------------
 void __fastcall TfrmFileDlgFMX::lbFilesDblClick(TObject *Sender) {
    process.ChangeFiles(frm);
-   ModalResult = mrOk;
+   if(process.Execute(frm)) ModalResult = mrOk;
+   else ModalResult = mrNone;
    }
 //---------------------------------------------------------------------------
 void __fastcall TfrmFileDlgFMX::btnOkClick(TObject *Sender) {
@@ -40,3 +41,10 @@ void __fastcall TfrmFileDlgFMX::btnCancelClick(TObject *Sender) {
    ModalResult = mrCancel;
    }
 //---------------------------------------------------------------------------
+
+void __fastcall TfrmFileDlgFMX::lbFilesClick(TObject *Sender) {
+   process.ChangeFiles(frm);   
+   }
+
+//---------------------------------------------------------------------------
+

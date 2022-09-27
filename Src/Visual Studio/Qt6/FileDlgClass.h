@@ -19,11 +19,4 @@ private:
     bool boEventsStarted = false;
     TMyForm         frm;
 
-private slots:
-   void DrivesChanged(int index);
-   void DirectoriesDblClick(QListWidgetItem* item);
-   void FilesChange(int currentRow);
-   void FilesDblClick(QListWidgetItem* item);
-   void FinishEvent(void);
-   void CancelEvent(void);
 };
