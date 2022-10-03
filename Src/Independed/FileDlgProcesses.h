@@ -7,6 +7,7 @@
 #include "MyForm.h"
 #include "MyTools.h"
 #include <string>
+#include <utility>
 
 //using mpOperations = std::map<std::string, std::function<void (TMyForm&)>>;
 
@@ -31,16 +32,15 @@ class TFileDlgProcess {
       TFileDlgProcess(TFileDlgProcess&&) = delete;
       ~TFileDlgProcess() = default;
       void InitFileDlg(TMyForm& frm);
-      void InitDrives(TMyForm& frm);
       void ChangeDirectory(TMyForm& frm);
       void ClickDirectory(TMyForm& frm);
       void ChangeDrives(TMyForm& frm);
       void ChangeFiles(TMyForm& frm);
-      std::string BuildPath(TMyForm& frm);
       void Backward(TMyForm& frm);
 
       bool FireMessages(void) { return msg_toggle; }
       bool Execute(TMyForm& frm);
+
       void SetFile(TMyForm& frm, std::string const& strFile);
       void SetDirectory(TMyForm& frm, std::string const& strFile);
       void SetRoot(TMyForm& frm, std::string const& strRoot);
@@ -48,6 +48,8 @@ class TFileDlgProcess {
       std::string const& GetFileOrDirectory(TMyForm& frm);
 
 private:
+   void InitDrives(TMyForm& frm);
+   std::pair<bool, std::string> BuildPath(TMyForm& frm);
 
    };
 

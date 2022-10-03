@@ -3,8 +3,9 @@
 
 #include <QDialog>
 #include "ui_FileDlgClass.h"
+#include <BuildFileDlg.h>
 
-class FileDlgClass : public QDialog
+class MyFileLibAPI FileDlgClass : public QDialog
 {
     Q_OBJECT
 

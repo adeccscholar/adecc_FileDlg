@@ -102,10 +102,13 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
          myPath = fs::canonical(myPath);
          frm.Set<EMyFrameworkType::edit>("edtPath", myPath.string());
 
+         /*
          auto my_rel = [&myPath](fs::path const& p) {
             std::string ret = p.string().substr(p.string().rfind("\\") + 1, p.string().length());
             return ret;
             };
+         */
+         static constexpr auto my_rel = [](fs::path const& p) { return p.filename().string();  };
 
          std::vector<fs::path> files;
          std::copy(fs::directory_iterator(myPath), fs::directory_iterator(), std::back_inserter(files));
@@ -115,12 +118,15 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
 #else         
          auto it1 = std::partition(std::execution::par, files.begin(), files.end(), [](auto const& p) { return fs::is_directory(p); });
 #endif
-         std::ostream out(frm.GetAsStreamBuff<Narrow, EMyFrameworkType::listbox>("lbDirectories"));
+         std::ostream out(frm.GetAsStreamBuff<Latin, EMyFrameworkType::listbox>("lbDirectories"));
 
-         std::sort(files.begin(), it1,
-            [this](auto const& a, auto const& b) {
-               return TMyTools::lower(a.filename().string()) < TMyTools::lower(b.filename().string());
-            });
+         if (boCaseSensitive) {
+            std::sort(files.begin(), it1, [](auto const& a, auto const& b) { return a.filename() < b.filename(); });
+            }
+         else {
+            std::sort(files.begin(), it1, [](auto const& a, auto const& b) {
+                             return TMyTools::lower(a.filename().string()) < TMyTools::lower(b.filename().string()); });
+            }
          std::vector<std::string>   vec;
          vec.reserve(std::distance(files.begin(), it1) + 1);
 
@@ -129,25 +135,40 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
          std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
          vec.clear();
          vec.reserve(std::distance(it1, files.end()) + 1);
-         delete out.rdbuf(frm.GetAsStreamBuff<Narrow, EMyFrameworkType::listbox>("lbFiles"));
+         delete out.rdbuf(frm.GetAsStreamBuff<Latin, EMyFrameworkType::listbox>("lbFiles"));
          std::transform(it1, files.end(), std::back_inserter(vec), my_rel);
-         std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
-            return TMyTools::lower(a) < TMyTools::lower(b); });
+         if(boCaseSensitive) {
+            std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
+                               return a < b; });
+            }
+         else {
+            std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
+               return TMyTools::lower(a) < TMyTools::lower(b); });
+            }
          if (auto strPattern = frm.Get<EMyFrameworkType::edit, std::string>("edtFile"); strPattern) {
             static std::string strMatcher = "*?";
             if (TMyTools::contain(*strPattern, strMatcher) == true) {
-                std::copy_if(vec.cbegin(), vec.cend(), std::ostream_iterator<std::string>(out, "\n"), [&](std::string const& pa) { return TMyTools::wildcard_matching(pa, *strPattern); });
+                std::copy_if(vec.cbegin(), vec.cend(), std::ostream_iterator<std::string>(out, "\n"), 
+                      [&](std::string const& pa) { return TMyTools::wildcard_matching(pa, *strPattern, boCaseSensitive); });
  
             }
             else {
                std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
-               std::string lower_p = TMyTools::lower(*strPattern);
-               if (std::find_if(vec.begin(), vec.end(), [this, &lower_p](std::string const& file) {
-                  return TMyTools::lower(file) == lower_p; }) != vec.end()) {
-                  frm.SetListBox("lbFiles", *strPattern);
+               if(boCaseSensitive) {
+                  if (std::find_if(vec.begin(), vec.end(), [this, &strPattern](std::string const& file) {
+                                                              return file == *strPattern; }) != vec.end()) {
+                     frm.SetListBox("lbFiles", *strPattern);
+                     }
+                  }
+               else {
+                  std::string lower_p = TMyTools::lower(*strPattern);
+                  if (std::find_if(vec.cbegin(), vec.cend(), [this, &lower_p](std::string const& file) {
+                                                              return TMyTools::lower(file) == lower_p; }) != vec.end()) {
+                     frm.SetListBox("lbFiles", *strPattern);
+                     }
+                  }
                }
             }
-         }
          else {
             std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
          }
@@ -165,15 +186,17 @@ void TFileDlgProcess::ChangeFiles(TMyForm& frm) {
    else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
 }
 
-
+// zusätzlicher Parameter für BuildPath
+// Nutzung der Methode tie, Rückgabewert
 bool TFileDlgProcess::Execute(TMyForm& frm) {
+   bool boRetVal = false;
    try {
-      strFileOrDirectory = BuildPath(frm);
+      std::tie(boRetVal, strFileOrDirectory) = BuildPath(frm);
       }
    catch(my_file_dlg_error const& ex) {
       return false;
       }
-   return true;
+   return boRetVal;
    }
 
 
@@ -195,22 +218,27 @@ void TFileDlgProcess::ClickDirectory(TMyForm& frm) {
    }
 
 
-std::string TFileDlgProcess::BuildPath(TMyForm& frm) {
+std::pair<bool, std::string> TFileDlgProcess::BuildPath(TMyForm& frm) {
    auto strDirectory = frm.Get<EMyFrameworkType::edit, std::string>("edtPath");
    fs::path retPath;
    if (!strDirectory) throw my_file_dlg_error("Can't build filename, field for directory is empty.");
    else retPath = *strDirectory;
    if(!boDirectory_only) {
       auto strFilename  = frm.Get<EMyFrameworkType::edit, std::string>("edtFile");
-      if (!strFilename) throw my_file_dlg_error("Can't build filename, field for filename is empty.");
+      if (!strFilename) {
+         ChangeDirectory(frm);
+         return std::make_pair(false, "");
+         }
       else {
-         //static std::string strMatcher = "*?";
-         //if (TMyTools::contain(*strFilename, strMatcher) == true) {
-
+         static std::string strMatcher = "*?";
+         if (TMyTools::contain(*strFilename, strMatcher) == true) {
+            ChangeDirectory(frm);
+            return std::make_pair(false, fs::canonical(retPath).string());
+            }
          retPath /= *strFilename;
          }
       }
-   return fs::canonical(retPath).string();
+   return std::make_pair(true, fs::canonical(retPath).string());
    }
 
 

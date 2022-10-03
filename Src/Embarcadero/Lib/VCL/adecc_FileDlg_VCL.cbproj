@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Library</AppType>
@@ -77,7 +77,9 @@
         <VerInfo_Locale>1031</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <IncludePath>..\..\..\Independed\;..\..\VCL\;..\..\..\..\..\adecc_Scholar\adecc_Scholar;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\Independed\;..\..\VCL\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <RunBCCOutOfProcess>true</RunBCCOutOfProcess>
+        <SubProcessesNumber>8</SubProcessesNumber>
+        <ILINK_LibraryPath>..\..\VCL\;..\..\..\Independed\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CloudService;CustomIPTransport;cxExportRS28;cxGridEMFRS28;cxGridRS28;cxLibraryRS28;cxPivotGridChartRS28;cxPivotGridOLAPRS28;cxPivotGridRS28;cxSchedulerGridRS28;cxSchedulerRibbonStyleEventEditorRS28;cxSchedulerRS28;cxSchedulerTreeBrowserRS28;cxSchedulerWebServiceStorageRS28;cxTreeListdxBarPopupMenuRS28;cxTreeListRS28;cxVerticalGridRS28;DataSnapClient;DataSnapCommon;DataSnapConnectors;DatasnapConnectorsFreePascal;DataSnapFireDAC;DataSnapIndy10ServerTransport;DataSnapNativeClient;DataSnapProviderClient;DataSnapServer;DataSnapServerMidas;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXDb2Driver;DBXFirebirdDriver;DBXInformixDriver;DBXInterBaseDriver;DBXMSSQLDriver;DBXMySQLDriver;DBXOdbcDriver;DBXOracleDriver;DBXSqliteDriver;DBXSybaseASADriver;DBXSybaseASEDriver;dsnap;dsnapcon;dsnapxml;dxADOEMFRS28;dxADOServerModeRS28;dxBarDBNavRS28;dxBarExtDBItemsRS28;dxBarExtItemsRS28;dxBarRS28;dxChartControlRS28;dxCloudServiceLibraryRS28;dxComnRS28;dxCoreRS28;dxdborRS28;dxdbtrRS28;dxDBXServerModeRS28;dxDockingRS28;dxEMFRS28;dxFireDACEMFRS28;dxFireDACServerModeRS28;dxFlowChartAdvancedCustomizeFormRS28;dxFlowChartDesignerRS28;dxFlowChartLayoutsRS28;dxFlowChartRS28;dxGanttControlRS28;dxGaugeControlRS28;dxGDIPlusRS28;dxHttpIndyRequestRS28;dxMapControlRS28;dxmdsRS28;dxNavBarRS28;dxOrgChartAdvancedCustomizeFormRS28;dxorgcRS28;dxPDFViewerRS28;dxPSCoreRS28;dxPScxCommonRS28;dxPScxExtCommonRS28;dxPScxGridLnkRS28;dxPScxPCProdRS28;dxPScxPivotGridLnkRS28;dxPScxSchedulerLnkRS28;dxPScxTLLnkRS28;dxPScxVGridLnkRS28;dxPSdxDBOCLnkRS28;dxPSdxDBTVLnkRS28;dxPSdxFCLnkRS28;dxPSdxGaugeControlLnkRS28;dxPSdxLCLnkRS28;dxPSdxMapControlLnkRS28;dxPSdxOCLnkRS28;dxPSdxPDFViewerLnkRS28;dxPSdxSpreadSheetLnkRS28;dxPSLnksRS28;dxPsPrVwAdvRS28;dxPSPrVwRibbonRS28;dxPSRichEditControlLnkRS28;dxRibbonCustomizationFormRS28;dxRibbonRS28;dxRichEditControlCoreRS28;dxRichEditControlRS28;dxRichEditCoreRS28;dxRichEditDocumentModelRS28;dxServerModeRS28;dxSkinsCoreRS28;dxSpellCheckerRS28;dxSpreadSheetConditionalFormattingDialogsRS28;dxSpreadSheetCoreConditionalFormattingDialogsRS28;dxSpreadSheetCoreRS28;dxSpreadSheetReportDesignerRS28;dxSpreadSheetRS28;dxTabbedMDIRS28;dxTileControlRS28;dxtrmdRS28;dxWizardControlRS28;emsclient;emsclientfiredac;emsedge;emshosting;emsserverresource;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACDb2Driver;FireDACDBXDriver;FireDACDSDriver;FireDACIBDriver;FireDACInfxDriver;FireDACMongoDBDriver;FireDACMSAccDriver;FireDACMSSQLDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACOracleDriver;FireDACPgDriver;FireDACSqliteDriver;FireDACTDataDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;tethering;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -93,7 +95,6 @@
         <BCC_PCHUsage>None</BCC_PCHUsage>
         <BCC_EnableBatchCompilation>true</BCC_EnableBatchCompilation>
         <FinalOutputDir>..\..\..\..\..\$(Platform)\$(Config)</FinalOutputDir>
-        <ILINK_LibraryPath>C:\Program Files (x86)\Embarcadero\Studio\22.0\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CloudService;CustomIPTransport;cxExportRS28;cxGridEMFRS28;cxGridRS28;cxLibraryRS28;cxPivotGridChartRS28;cxPivotGridOLAPRS28;cxPivotGridRS28;cxSchedulerGridRS28;cxSchedulerRibbonStyleEventEditorRS28;cxSchedulerRS28;cxSchedulerTreeBrowserRS28;cxSchedulerWebServiceStorageRS28;cxTreeListdxBarPopupMenuRS28;cxTreeListRS28;cxVerticalGridRS28;DataSnapClient;DataSnapCommon;DataSnapConnectors;DatasnapConnectorsFreePascal;DataSnapFireDAC;DataSnapIndy10ServerTransport;DataSnapNativeClient;DataSnapProviderClient;DataSnapServer;DataSnapServerMidas;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXDb2Driver;DBXFirebirdDriver;DBXInformixDriver;DBXInterBaseDriver;DBXMSSQLDriver;DBXMySQLDriver;DBXOdbcDriver;DBXOracleDriver;DBXSqliteDriver;DBXSybaseASADriver;DBXSybaseASEDriver;dsnap;dsnapcon;dsnapxml;dxADOEMFRS28;dxADOServerModeRS28;dxBarDBNavRS28;dxBarExtDBItemsRS28;dxBarExtItemsRS28;dxBarRS28;dxChartControlRS28;dxCloudServiceLibraryRS28;dxComnRS28;dxCoreRS28;dxdborRS28;dxdbtrRS28;dxDBXServerModeRS28;dxDockingRS28;dxEMFRS28;dxFireDACEMFRS28;dxFireDACServerModeRS28;dxFlowChartAdvancedCustomizeFormRS28;dxFlowChartDesignerRS28;dxFlowChartLayoutsRS28;dxFlowChartRS28;dxGanttControlRS28;dxGaugeControlRS28;dxGDIPlusRS28;dxHttpIndyRequestRS28;dxMapControlRS28;dxmdsRS28;dxNavBarRS28;dxOrgChartAdvancedCustomizeFormRS28;dxorgcRS28;dxPDFViewerRS28;dxPSCoreRS28;dxPScxCommonRS28;dxPScxExtCommonRS28;dxPScxGridLnkRS28;dxPScxPCProdRS28;dxPScxPivotGridLnkRS28;dxPScxSchedulerLnkRS28;dxPScxTLLnkRS28;dxPScxVGridLnkRS28;dxPSdxDBOCLnkRS28;dxPSdxDBTVLnkRS28;dxPSdxFCLnkRS28;dxPSdxGaugeControlLnkRS28;dxPSdxLCLnkRS28;dxPSdxMapControlLnkRS28;dxPSdxOCLnkRS28;dxPSdxPDFViewerLnkRS28;dxPSdxSpreadSheetLnkRS28;dxPSLnksRS28;dxPsPrVwAdvRS28;dxPSPrVwRibbonRS28;dxPSRichEditControlLnkRS28;dxRibbonCustomizationFormRS28;dxRibbonRS28;dxRichEditControlCoreRS28;dxRichEditControlRS28;dxRichEditCoreRS28;dxRichEditDocumentModelRS28;dxServerModeRS28;dxSkinsCoreRS28;dxSpellCheckerRS28;dxSpreadSheetConditionalFormattingDialogsRS28;dxSpreadSheetCoreConditionalFormattingDialogsRS28;dxSpreadSheetCoreRS28;dxSpreadSheetReportDesignerRS28;dxSpreadSheetRS28;dxTabbedMDIRS28;dxTileControlRS28;dxtrmdRS28;dxWizardControlRS28;emsclient;emsclientfiredac;emsedge;emshosting;emsserverresource;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACDb2Driver;FireDACDBXDriver;FireDACDSDriver;FireDACIBDriver;FireDACInfxDriver;FireDACMongoDBDriver;FireDACMSAccDriver;FireDACMSSQLDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACOracleDriver;FireDACPgDriver;FireDACSqliteDriver;FireDACTDataDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;tethering;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -110,7 +111,6 @@
         <Manifest_File>(Ohne)</Manifest_File>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
         <FinalOutputDir>..\..\..\..\..\$(Platform)\$(Config)</FinalOutputDir>
-        <ILINK_LibraryPath>C:\Program Files (x86)\Embarcadero\Studio\22.0\lib\win64\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -145,8 +145,6 @@
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>(Ohne)</Manifest_File>
-        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

@@ -1,5 +1,5 @@
 
-#if defined BUILD_WITH_VCL || defined BUILD_WITH_FMX
+#if defined BUILD_WITH_VCL || defined BUILD_WITH_FMX || defined FILEDLG_QT_LIB
 
 #ifndef BUILD_FILEDLG_DLL
    #define MyFileLibAPI __declspec(dllimport)

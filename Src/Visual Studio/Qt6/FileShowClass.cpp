@@ -1,5 +1,6 @@
 #include "FileShowClass.h"
 
+
 FileShowClass::FileShowClass(QWidget *parent)
     : QDialog(parent)
 {
