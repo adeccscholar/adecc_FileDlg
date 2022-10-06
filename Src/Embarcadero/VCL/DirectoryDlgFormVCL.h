@@ -19,12 +19,16 @@ __published:	// Von der IDE verwaltete Komponenten
    TButton *btnOk;
    TButton *btnCancel;
    TLabel *lblDrives;
-   TLabel *Label2;
+   TLabel *lblDirectories;
    TComboBox *cbxDrives;
+   TLabel *lblPath;
+   TEdit *edtPath;
+   TPanel *Panel3;
    void __fastcall btnOkClick(TObject *Sender);
    void __fastcall btnCancelClick(TObject *Sender);
    void __fastcall lbDirectoriesDblClick(TObject *Sender);
    void __fastcall cbxDrivesChange(TObject *Sender);
+   void __fastcall FormCreate(TObject *Sender);
 private:	// Benutzer-Deklarationen
    TFileDlgProcess& process;
    TMyForm          frm;

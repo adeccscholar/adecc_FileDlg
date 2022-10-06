@@ -178,6 +178,7 @@
             <BuildOrder>1</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\VCL\DirectoryDlgFormVCL.cpp">
+            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
             <Form>frmDirectoryDlgVCL</Form>
             <FormType>dfm</FormType>
             <DependentOn>..\..\VCL\DirectoryDlgFormVCL.h</DependentOn>
@@ -248,8 +249,8 @@
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp280.bpl">Embarcadero C++Builder-Package für Office XP-Server</Excluded_Packages>
                 </Excluded_Packages>
                 <VFOLDERS>
-                    <VFOLDER ID="{07CBE88A-7CF0-4914-937D-9C6DA7E81587}" name="Src"/>
                     <VFOLDER ID="{0F0A95A9-B59C-419D-8865-0826D31AE1A9}" name="Libraries"/>
+                    <VFOLDER ID="{07CBE88A-7CF0-4914-937D-9C6DA7E81587}" name="Src"/>
                 </VFOLDERS>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="4">

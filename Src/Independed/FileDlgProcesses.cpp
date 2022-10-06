@@ -33,8 +33,12 @@ TFileDlgProcess::TFileDlgProcess(bool boDirOnly, bool boCaseSense) {
 void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
    try {
       msg_toggle = false;
-      
-      frm.SetCaption("Datei auswählen .. ");
+
+      InitDrives(frm);
+
+      if(boDirectory_only) frm.SetCaption("Verzeichnis auswählen .. ");
+      else                 frm.SetCaption("Datei auswählen .. ");
+
       frm.Set<EMyFrameworkType::label>     ("lblDrives",      "Laufwerk:");
       frm.Set<EMyFrameworkType::label>     ("lblDirectories", "Verzeichnisse:");
 
@@ -47,14 +51,13 @@ void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
          frm.ReadOnly<EMyFrameworkType::edit>("edtPath", true);
          }
       else
-         frm.ReadOnly<EMyFrameworkType::edit>("edtPath", false);
+         frm.ReadOnly<EMyFrameworkType::edit>("edtPath", true);
 
       frm.Set<EMyFrameworkType::edit>      ("edtPath",        "");
       
       frm.Set<EMyFrameworkType::button>    ("btnOk",        "Übernehmen");
       frm.Set<EMyFrameworkType::button>    ("btnCancel",    "Abbruch");
 
-      InitDrives(frm);
       ChangeDrives(frm);  // only for vcl really necessary
       msg_toggle = true;
       }

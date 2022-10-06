@@ -14,6 +14,10 @@ __fastcall TfrmDirectoryDlgVCL::TfrmDirectoryDlgVCL(TFileDlgProcess& proc, TComp
 {
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmDirectoryDlgVCL::FormCreate(TObject *Sender) {
+   frm.Set(this, false);
+   }
+//---------------------------------------------------------------------------
 void __fastcall TfrmDirectoryDlgVCL::cbxDrivesChange(TObject *Sender) {
    process.ChangeDrives(frm);
    }
@@ -35,4 +39,6 @@ void __fastcall TfrmDirectoryDlgVCL::btnCancelClick(TObject *Sender)
    ModalResult = mrCancel;
    
 }
+
 //---------------------------------------------------------------------------
+
