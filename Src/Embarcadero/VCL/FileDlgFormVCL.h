@@ -9,10 +9,7 @@
 #include <Vcl.Forms.hpp>
 
 #include "FileDlgProcesses.h"
-#include <memory>
-#include <iostream>
-#include <tuple>
-#include <optional>
+
 //---------------------------------------------------------------------------
 class TfrmFileDlg : public TForm
 {

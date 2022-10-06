@@ -5,6 +5,7 @@
 
 #if defined BUILD_WITH_VCL
 #include "FileDlgFormVCL.h"
+#include "DirectoryDlgFormVCL.h"
 #include "FileShowFormVCL.h"
 #elif defined BUILD_WITH_FMX
 #include "FileDlgFormFMX.h"
@@ -12,6 +13,7 @@
 #elif defined BUILD_WITH_QT
 #include "FileDlgClass.h"
 #include "FileShowClass.h"
+#include "DirectoryDlgClass.h"
 #else
 #error framework not defined
 #endif
@@ -56,16 +58,16 @@ TMyForm TMyFileDlg::CreateShowFile() {
 #endif
 }
 
-std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& caller_frm, std::optional<std::string> const& path) {
+std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& caller_frm, std::optional<std::string> const& path, bool parDirOnly) {
    std::optional<std::string> strRetPath = {};
    bool boRetVal = false;
-   TFileDlgProcess theFileDlgProcess(false, false);
+   TFileDlgProcess theFileDlgProcess(parDirOnly, false);
 
    try {
       if(!path) return std::make_pair(EMyRetResults::error, "path parameter is empty.");
       fs::path fsPath = *path;
 
-      auto form = CreateFileDlg(theFileDlgProcess);
+      auto form = parDirOnly ? CreateDirectoryDlg(theFileDlgProcess) : CreateFileDlg(theFileDlgProcess);
       theFileDlgProcess.InitFileDlg(form);
 
          if(fsPath.is_absolute()) {
@@ -130,6 +132,19 @@ TMyForm TMyFileDlg::CreateFileDlg(TFileDlgProcess& proc) {
    #endif
    }
 
+TMyForm TMyFileDlg::CreateDirectoryDlg(TFileDlgProcess& proc) {
+#if defined BUILD_WITH_VCL
+   //#error No implemetation for VCL
+   return TMyForm(new TfrmDirectoryDlgVCL(proc, nullptr), true);
+#elif defined BUILD_WITH_FMX
+#error No implemetation for FMX
+   //return TMyForm(new TfrmFileDlgFMX(proc, nullptr), true);
+#elif defined BUILD_WITH_QT
+   return TMyForm(new DirectoryDlgClass(proc, nullptr), true);
+#else
+#error No implemetation for the choosen framework
+#endif
+}
 
 void TMyFileDlg::TMyFileDlg::InitFileShowForm(TMyForm& frm, std::string const& strFile) {
    frm.Set<EMyFrameworkType::button>("btnOk", "Schließen");

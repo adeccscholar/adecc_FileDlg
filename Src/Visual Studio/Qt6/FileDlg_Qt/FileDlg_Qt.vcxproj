@@ -110,17 +110,20 @@
     <ClInclude Include="..\..\..\Independed\MyFileException.h" />
     <QtMoc Include="..\FileDlgClass.h" />
     <QtMoc Include="..\FileShowClass.h" />
+    <QtMoc Include="..\DirectoryDlgClass.h" />
     <ClInclude Include="filedlg_qt_global.h" />
     <QtMoc Include="FileDlg_Qt.h" />
     <ClCompile Include="..\..\..\Independed\FileDlgProcesses.cpp" />
     <ClCompile Include="..\..\..\Independed\FileUtil.cpp" />
     <ClCompile Include="..\..\..\Independed\MyFileDlg.cpp" />
     <ClCompile Include="..\..\..\Independed\MyFileException.cpp" />
+    <ClCompile Include="..\DirectoryDlgClass.cpp" />
     <ClCompile Include="..\FileDlgClass.cpp" />
     <ClCompile Include="..\FileShowClass.cpp" />
     <ClCompile Include="FileDlg_Qt.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="..\DirectoryDlgClass.ui" />
     <QtUic Include="..\FileDlgClass.ui" />
     <QtUic Include="..\FileShowClass.ui" />
   </ItemGroup>

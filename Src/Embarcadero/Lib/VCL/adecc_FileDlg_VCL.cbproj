@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Library</AppType>
@@ -177,6 +177,12 @@
         <CppCompile Include="FileDlgEntryPointVCL.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\VCL\DirectoryDlgFormVCL.cpp">
+            <Form>frmDirectoryDlgVCL</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\VCL\DirectoryDlgFormVCL.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\VCL\FileDlgFormVCL.cpp">
             <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
             <Form>frmFileDlg</Form>
@@ -213,6 +219,7 @@
         </CppCompile>
         <FormResources Include="..\..\VCL\FileShowFormVCL.dfm"/>
         <FormResources Include="..\..\VCL\FileDlgFormVCL.dfm"/>
+        <FormResources Include="..\..\VCL\DirectoryDlgFormVCL.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -302,13 +309,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\..\Win32\Debug\adecc_FileDlg_VCL.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>adecc_FileDlg_VCL.tds</RemoteName>
+                <DeployFile LocalName="..\..\..\..\..\Win64\Debug\adecc_FileDlg_VCL.dll" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>adecc_FileDlg_VCL.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\..\Win64\Debug\adecc_FileDlg_VCL.dll" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\Win64\Release\adecc_FileDlg_VCL.dll" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>adecc_FileDlg_VCL.dll</RemoteName>
                         <Overwrite>true</Overwrite>

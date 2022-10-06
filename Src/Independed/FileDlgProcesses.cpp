@@ -38,7 +38,8 @@ void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
       frm.Set<EMyFrameworkType::label>     ("lblDrives",      "Laufwerk:");
       frm.Set<EMyFrameworkType::label>     ("lblDirectories", "Verzeichnisse:");
 
-      if(frm.Exists<EMyFrameworkType::listbox>("lbFiles")) {
+
+      if(!boDirectory_only && frm.Exists<EMyFrameworkType::listbox>("lbFiles")) {
          frm.Set<EMyFrameworkType::label> ("lblFiles", "Dateien:");
          frm.Set<EMyFrameworkType::label> ("lblFile",  "Datei:");
          frm.Set<EMyFrameworkType::edit>  ("edtFile",  "");
@@ -135,44 +136,47 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
          std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
          vec.clear();
          vec.reserve(std::distance(it1, files.end()) + 1);
-         delete out.rdbuf(frm.GetAsStreamBuff<Latin, EMyFrameworkType::listbox>("lbFiles"));
-         std::transform(it1, files.end(), std::back_inserter(vec), my_rel);
-         if(boCaseSensitive) {
-            std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
+
+         if(!boDirectory_only) {
+            delete out.rdbuf(frm.GetAsStreamBuff<Latin, EMyFrameworkType::listbox>("lbFiles"));
+            std::transform(it1, files.end(), std::back_inserter(vec), my_rel);
+            if(boCaseSensitive) {
+               std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
                                return a < b; });
-            }
-         else {
-            std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
-               return TMyTools::lower(a) < TMyTools::lower(b); });
-            }
-         if (auto strPattern = frm.Get<EMyFrameworkType::edit, std::string>("edtFile"); strPattern) {
-            static std::string strMatcher = "*?";
-            if (TMyTools::contain(*strPattern, strMatcher) == true) {
-                std::copy_if(vec.cbegin(), vec.cend(), std::ostream_iterator<std::string>(out, "\n"), 
-                      [&](std::string const& pa) { return TMyTools::wildcard_matching(pa, *strPattern, boCaseSensitive); });
- 
-            }
+               }
             else {
-               std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
-               if(boCaseSensitive) {
-                  if (std::find_if(vec.begin(), vec.end(), [this, &strPattern](std::string const& file) {
-                                                              return file == *strPattern; }) != vec.end()) {
-                     frm.SetListBox("lbFiles", *strPattern);
-                     }
+               std::sort(vec.begin(), vec.end(), [this](auto const& a, auto const& b) {
+                               return TMyTools::lower(a) < TMyTools::lower(b); });
+               }
+            if (auto strPattern = frm.Get<EMyFrameworkType::edit, std::string>("edtFile"); strPattern) {
+               static std::string strMatcher = "*?";
+               if (TMyTools::contain(*strPattern, strMatcher) == true) {
+                  std::copy_if(vec.cbegin(), vec.cend(), std::ostream_iterator<std::string>(out, "\n"), 
+                        [&](std::string const& pa) { return TMyTools::wildcard_matching(pa, *strPattern, boCaseSensitive); });
+ 
                   }
                else {
-                  std::string lower_p = TMyTools::lower(*strPattern);
-                  if (std::find_if(vec.cbegin(), vec.cend(), [this, &lower_p](std::string const& file) {
+                  std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
+                  if(boCaseSensitive) {
+                    if (std::find_if(vec.begin(), vec.end(), [this, &strPattern](std::string const& file) {
+                                                              return file == *strPattern; }) != vec.end()) {
+                       frm.SetListBox("lbFiles", *strPattern);
+                       }
+                    }
+                  else {
+                     std::string lower_p = TMyTools::lower(*strPattern);
+                     if (std::find_if(vec.cbegin(), vec.cend(), [this, &lower_p](std::string const& file) {
                                                               return TMyTools::lower(file) == lower_p; }) != vec.end()) {
-                     frm.SetListBox("lbFiles", *strPattern);
+                        frm.SetListBox("lbFiles", *strPattern);
+                        }
                      }
                   }
                }
+            else {
+               std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
+               }
             }
-         else {
-            std::copy(vec.begin(), vec.end(), std::ostream_iterator<std::string>(out, "\n"));
          }
-      }
       }
    catch (std::exception& ex) {
       std::cerr << "Fehler beim Wechseln der Verzeichnisse" << std::endl << ex.what() << std::endl;
@@ -180,11 +184,13 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
    }
 
 void TFileDlgProcess::ChangeFiles(TMyForm& frm) {
-   auto selected = frm.GetSelectedRows<EMyFrameworkType::listbox>("lbFiles");
-   if (selected.size() > 1u) throw my_filedlg_exception("TFileDlgProcess", strMultipleFiles, MY_POSITION());
-   if (selected.size() == 1u) frm.Set<EMyFrameworkType::edit>("edtFile", frm.GetValue<EMyFrameworkType::listbox, std::string>("lbFiles", selected[0]));
-   else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
-}
+   if (!boDirectory_only) {
+      auto selected = frm.GetSelectedRows<EMyFrameworkType::listbox>("lbFiles");
+      if (selected.size() > 1u) throw my_filedlg_exception("TFileDlgProcess", strMultipleFiles, MY_POSITION());
+      if (selected.size() == 1u) frm.Set<EMyFrameworkType::edit>("edtFile", frm.GetValue<EMyFrameworkType::listbox, std::string>("lbFiles", selected[0]));
+      else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
+      }
+   }
 
 // zusätzlicher Parameter für BuildPath
 // Nutzung der Methode tie, Rückgabewert
@@ -243,8 +249,12 @@ std::pair<bool, std::string> TFileDlgProcess::BuildPath(TMyForm& frm) {
 
 
 void TFileDlgProcess::SetFile(TMyForm& frm, std::string const& strFile) {
-   frm.Set<EMyFrameworkType::edit>("edtFile", strFile);
-   frm.SetListBox("lbFiles", strFile); 
+   if (!boDirectory_only) {
+      frm.Set<EMyFrameworkType::edit>("edtFile", strFile);
+      frm.SetListBox("lbFiles", strFile);
+      }
+   else throw my_file_dlg_error("Try to set Filename in Dialog without filename.");
+
    }
 
 void TFileDlgProcess::SetDirectory(TMyForm& frm, std::string const& strFile) {
