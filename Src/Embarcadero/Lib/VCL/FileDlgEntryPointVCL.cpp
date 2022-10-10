@@ -26,6 +26,18 @@
 // BUILD_FILEDLG_DLL
 
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved) {
+   switch(reason) {
+      case DLL_PROCESS_ATTACH:
+         ::CoInitialize(0);
+         break;
+      case DLL_THREAD_ATTACH:
+         break;
+      case DLL_THREAD_DETACH:
+         break;
+      case DLL_PROCESS_DETACH:
+         ::CoUninitialize();
+         break;
+      }
 	return 1;
    }
 

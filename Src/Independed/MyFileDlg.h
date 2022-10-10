@@ -20,7 +20,7 @@ class MyFileLibAPI TMyFileDlg {
       static void LoadFile(std::wostream& stream, std::string const& strFile);
       static size_t CheckFileSize(std::string const& strFile);
       static std::tuple<std::wifstream, const size_t> OpenInputFile(std::string const& strFile);
-
+      static EMyRetResults Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage);
    private:
       static void InitFileShowForm(TMyForm& frm, std::string const& strFile);
       static TMyForm CreateShowFile();

@@ -68,7 +68,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppDynamicLibrary</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclwinx.lib;vclimg.lib;bindengine.lib</AllPackageLibs>
         <Multithreaded>true</Multithreaded>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>wchar_t</_TCHARMapping>
@@ -142,7 +142,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclwinx.bpi;vclimg.bpi;bindengine.bpi</LinkPackageImports>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
@@ -198,6 +198,13 @@
             <DependentOn>..\..\VCL\FileShowFormVCL.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\VCL\MessageDlg.cpp">
+            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
+            <Form>frmMessage</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\VCL\MessageDlg.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\..\Independed\FileDlgProcesses.cpp">
             <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
             <DependentOn>..\..\..\Independed\FileDlgProcesses.h</DependentOn>
@@ -218,6 +225,7 @@
             <DependentOn>..\..\..\Independed\MyFileException.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\VCL\MessageDlg.dfm"/>
         <FormResources Include="..\..\VCL\FileShowFormVCL.dfm"/>
         <FormResources Include="..\..\VCL\FileDlgFormVCL.dfm"/>
         <FormResources Include="..\..\VCL\DirectoryDlgFormVCL.dfm"/>

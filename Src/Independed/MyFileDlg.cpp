@@ -7,19 +7,23 @@
 #include "FileDlgFormVCL.h"
 #include "DirectoryDlgFormVCL.h"
 #include "FileShowFormVCL.h"
+#include "MessageDlg.h"
+
 #elif defined BUILD_WITH_FMX
 #include "FileDlgFormFMX.h"
 #include "FileShowDlgFMX.h"
+
 #elif defined BUILD_WITH_QT
 #include "FileDlgClass.h"
 #include "FileShowClass.h"
 #include "DirectoryDlgClass.h"
+#include "MessageDlgClass.h"
 #else
 #error framework not defined
 #endif
 
 #include <MyFileException.h>
-
+#include <MyForm.h>
 #include <fstream>
 #include <locale>
 #include <filesystem>
@@ -119,6 +123,36 @@ std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& 
       }
    }
 
+
+
+EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage) {
+  TMyForm frm; 
+  #if defined BUILD_WITH_VCL
+      auto fw_frm = new TfrmMessage(paType, nullptr);
+      frm.Set(fw_frm, true);
+      
+   #elif defined BUILD_WITH_QT
+      frm.Set(new MessageDlgClass(nullptr), true);
+   #else
+   #error no implementation for this framework
+   #endif
+   frm.SetCaption(paCaption);
+   frm.Set<EMyFrameworkType::memo>("memMessage", paMessage);
+   frm.Set<EMyFrameworkType::button>("btnOk", "Ja");
+   frm.Set<EMyFrameworkType::button>("btnNo", "Nein");
+   frm.Set<EMyFrameworkType::button>("btnCancel", "Abbruch");
+
+   if(paType != EMyMessageType::question) {
+      frm.Set<EMyFrameworkType::button>("btnOk", "Bestätigen");
+      frm.Visible<EMyFrameworkType::button>("btnCancel", false);
+      frm.Visible<EMyFrameworkType::button>("btnNo", false);
+      }
+   else {
+      frm.Set<EMyFrameworkType::button>("btnOk", "Ja");
+      }
+
+   return frm.ShowModal();      
+}
 
 TMyForm TMyFileDlg::CreateFileDlg(TFileDlgProcess& proc) {
    #if defined BUILD_WITH_VCL
