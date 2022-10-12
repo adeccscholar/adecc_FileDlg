@@ -23,8 +23,8 @@ object frmDirectoryDlgVCL: TfrmDirectoryDlgVCL
     Margins.Right = 6
     Margins.Bottom = 6
     Align = alTop
+    Caption = 'edtPath'
     TabOrder = 0
-    ExplicitWidth = 1083
     DesignSize = (
       1110
       176)
@@ -99,8 +99,6 @@ object frmDirectoryDlgVCL: TfrmDirectoryDlgVCL
     Margins.Bottom = 6
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 844
-    ExplicitWidth = 1083
     object btnOk: TButton
       Left = 69
       Top = 12
@@ -141,12 +139,8 @@ object frmDirectoryDlgVCL: TfrmDirectoryDlgVCL
     Margins.Right = 6
     Margins.Bottom = 6
     Align = alClient
-    Caption = 'Panel3'
+    Caption = 'edtPath'
     TabOrder = 2
-    ExplicitLeft = 33
-    ExplicitTop = 188
-    ExplicitWidth = 386
-    ExplicitHeight = 443
     DesignSize = (
       1110
       660)
@@ -163,8 +157,6 @@ object frmDirectoryDlgVCL: TfrmDirectoryDlgVCL
       ItemHeight = 35
       TabOrder = 0
       OnDblClick = lbDirectoriesDblClick
-      ExplicitWidth = 1041
-      ExplicitHeight = 668
     end
   end
 end

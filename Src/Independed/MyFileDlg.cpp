@@ -8,42 +8,45 @@
 #include "DirectoryDlgFormVCL.h"
 #include "FileShowFormVCL.h"
 #include "MessageDlg.h"
-
+#include "InputDlgVCL.h"
 #elif defined BUILD_WITH_FMX
 #include "FileDlgFormFMX.h"
 #include "FileShowDlgFMX.h"
-
+#include "InputDlgFMX.h"
+#include "MessageDlgFMX.h"
 #elif defined BUILD_WITH_QT
 #include "FileDlgClass.h"
 #include "FileShowClass.h"
 #include "DirectoryDlgClass.h"
 #include "MessageDlgClass.h"
+#include "InputDlgClass.h"
 #else
 #error framework not defined
 #endif
 
 #include <MyFileException.h>
 #include <MyForm.h>
+#include "FileDlgProcesses.h"
+
 #include <fstream>
 #include <locale>
 #include <filesystem>
 #include <system_error>
 
-
 namespace fs = std::filesystem;
 
 
-void TMyFileDlg::OpenFileAction(TMyForm& call_form, std::string const& strFile) {
+void TMyFileDlg::OpenFileAction(std::string const& strFile) {
    try {
       auto frm = CreateShowFile();
       InitFileShowForm(frm, strFile);
       frm.ShowModal();
    }
    catch (std::exception& ex) {
-      call_form.Message(EMyMessageType::error, "File App", ex.what());
+      TMyFileDlg::Message(EMyMessageType::error, "File App", ex.what());
    }
    catch (...) {
-      call_form.Message(EMyMessageType::error, "File App", "unexpected excepttion occured");
+      TMyFileDlg::Message(EMyMessageType::error, "File App", "unexpected exception occured");
    }
 }
 
@@ -62,7 +65,7 @@ TMyForm TMyFileDlg::CreateShowFile() {
 #endif
 }
 
-std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(TMyForm& caller_frm, std::optional<std::string> const& path, bool parDirOnly) {
+std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(std::optional<std::string> const& path, bool parDirOnly) {
    std::optional<std::string> strRetPath = {};
    bool boRetVal = false;
    TFileDlgProcess theFileDlgProcess(parDirOnly, false);
@@ -130,9 +133,11 @@ EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCa
   #if defined BUILD_WITH_VCL
       auto fw_frm = new TfrmMessage(paType, nullptr);
       frm.Set(fw_frm, true);
-      
+   #elif defined BUILD_WITH_FMX
+      auto fw_frm = new TfrmMessageDlgFMX(paType, nullptr);
+      frm.Set(fw_frm, true);
    #elif defined BUILD_WITH_QT
-      frm.Set(new MessageDlgClass(nullptr), true);
+      frm.Set(new MessageDlgClass(paType, nullptr), true);
    #else
    #error no implementation for this framework
    #endif
@@ -154,6 +159,18 @@ EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCa
    return frm.ShowModal();      
 }
 
+TMyForm TMyFileDlg::CreateInputDlg(void) {
+     #if defined BUILD_WITH_VCL
+   return { new TfmInputVCL(nullptr), true};
+   #elif defined BUILD_WITH_FMX
+   return { new TfmInputFMX(nullptr), true};
+   #elif defined BUILD_WITH_QT  
+   return { new InputDlgClass(nullptr), true };
+   #else
+      #error No implemetation for the choosen framework
+   #endif
+  }
+
 TMyForm TMyFileDlg::CreateFileDlg(TFileDlgProcess& proc) {
    #if defined BUILD_WITH_VCL
       return TMyForm(new TfrmFileDlg(proc, nullptr), true);
@@ -171,8 +188,7 @@ TMyForm TMyFileDlg::CreateDirectoryDlg(TFileDlgProcess& proc) {
    //#error No implemetation for VCL
    return TMyForm(new TfrmDirectoryDlgVCL(proc, nullptr), true);
 #elif defined BUILD_WITH_FMX
-#error No implemetation for FMX
-   //return TMyForm(new TfrmFileDlgFMX(proc, nullptr), true);
+   return TMyForm(new TfrmFileDlgFMX(proc, nullptr), true);
 #elif defined BUILD_WITH_QT
    return TMyForm(new DirectoryDlgClass(proc, nullptr), true);
 #else

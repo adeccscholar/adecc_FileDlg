@@ -157,7 +157,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclwinx.bpi;vclimg.bpi;bindengine.bpi</LinkPackageImports>
     </PropertyGroup>
     <ItemGroup>
         <LibFiles Include="C:\Program Files (x86)\Embarcadero\Studio\22.0\lib\win32\release\memmgr.lib" Condition="'$(Platform)'=='Win32'">
@@ -198,6 +198,13 @@
             <DependentOn>..\..\VCL\FileShowFormVCL.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\VCL\InputDlgVCL.cpp">
+            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
+            <Form>fmInputVCL</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\VCL\InputDlgVCL.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\VCL\MessageDlg.cpp">
             <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
             <Form>frmMessage</Form>
@@ -206,26 +213,27 @@
             <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\FileDlgProcesses.cpp">
-            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
+            <VirtualFolder>{A9338A48-0032-40B3-A5DE-CE325AE29691}</VirtualFolder>
             <DependentOn>..\..\..\Independed\FileDlgProcesses.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\FileUtil.cpp">
-            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
+            <VirtualFolder>{A9338A48-0032-40B3-A5DE-CE325AE29691}</VirtualFolder>
             <DependentOn>..\..\..\Independed\FileUtil.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\MyFileDlg.cpp">
-            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
+            <VirtualFolder>{A9338A48-0032-40B3-A5DE-CE325AE29691}</VirtualFolder>
             <DependentOn>..\..\..\Independed\MyFileDlg.h</DependentOn>
             <BuildOrder>8</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\MyFileException.cpp">
-            <VirtualFolder>{07CBE88A-7CF0-4914-937D-9C6DA7E81587}</VirtualFolder>
+            <VirtualFolder>{A9338A48-0032-40B3-A5DE-CE325AE29691}</VirtualFolder>
             <DependentOn>..\..\..\Independed\MyFileException.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\VCL\MessageDlg.dfm"/>
+        <FormResources Include="..\..\VCL\InputDlgVCL.dfm"/>
         <FormResources Include="..\..\VCL\FileShowFormVCL.dfm"/>
         <FormResources Include="..\..\VCL\FileDlgFormVCL.dfm"/>
         <FormResources Include="..\..\VCL\DirectoryDlgFormVCL.dfm"/>
@@ -258,7 +266,8 @@
                 </Excluded_Packages>
                 <VFOLDERS>
                     <VFOLDER ID="{0F0A95A9-B59C-419D-8865-0826D31AE1A9}" name="Libraries"/>
-                    <VFOLDER ID="{07CBE88A-7CF0-4914-937D-9C6DA7E81587}" name="Src"/>
+                    <VFOLDER ID="{07CBE88A-7CF0-4914-937D-9C6DA7E81587}" name="Src depended"/>
+                    <VFOLDER ID="{A9338A48-0032-40B3-A5DE-CE325AE29691}" name="Src independed"/>
                 </VFOLDERS>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="4">

@@ -4,11 +4,10 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Library</AppType>
-        <CC_Suffix Condition="'$(CC_Suffix)'==''">c</CC_Suffix>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -153,6 +152,13 @@
         <LinkPackageImports>rtl.bpi;fmx.bpi</LinkPackageImports>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="..\..\FMX\DirectoryDlgFormFMX.cpp">
+            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <Form>frmDirectoryDlgFMX</Form>
+            <FormType>fmx</FormType>
+            <DependentOn>..\..\FMX\DirectoryDlgFormFMX.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\FMX\FileDlgFormFMX.cpp">
             <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
             <Form>frmFileDlgFMX</Form>
@@ -167,6 +173,20 @@
             <DependentOn>..\..\FMX\FileShowDlgFMX.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\FMX\InputDlgFMX.cpp">
+            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <Form>fmInputFMX</Form>
+            <FormType>fmx</FormType>
+            <DependentOn>..\..\FMX\InputDlgFMX.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\FMX\MessageDlgFMX.cpp">
+            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <Form>frmMessageDlgFMX</Form>
+            <FormType>fmx</FormType>
+            <DependentOn>..\..\FMX\MessageDlgFMX.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <PCHCompile Include="adecc_File_Dlg_FMXPCH1.h">
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>
@@ -175,27 +195,30 @@
             <BuildOrder>1</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\FileDlgProcesses.cpp">
-            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <VirtualFolder>{01D27F02-DA11-475F-B62C-6D61E04CFF97}</VirtualFolder>
             <DependentOn>..\..\..\Independed\FileDlgProcesses.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\FileUtil.cpp">
-            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <VirtualFolder>{01D27F02-DA11-475F-B62C-6D61E04CFF97}</VirtualFolder>
             <DependentOn>..\..\..\Independed\FileUtil.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\MyFileDlg.cpp">
-            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <VirtualFolder>{01D27F02-DA11-475F-B62C-6D61E04CFF97}</VirtualFolder>
             <DependentOn>..\..\..\Independed\MyFileDlg.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\Independed\MyFileException.cpp">
-            <VirtualFolder>{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}</VirtualFolder>
+            <VirtualFolder>{01D27F02-DA11-475F-B62C-6D61E04CFF97}</VirtualFolder>
             <DependentOn>..\..\..\Independed\MyFileException.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\FMX\DirectoryDlgFormFMX.fmx"/>
         <FormResources Include="..\..\FMX\FileDlgFormFMX.fmx"/>
         <FormResources Include="..\..\FMX\FileShowDlgFMX.fmx"/>
+        <FormResources Include="..\..\FMX\InputDlgFMX.fmx"/>
+        <FormResources Include="..\..\FMX\MessageDlgFMX.fmx"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -224,7 +247,8 @@
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp280.bpl">Embarcadero C++Builder-Package für Office XP-Server</Excluded_Packages>
                 </Excluded_Packages>
                 <VFOLDERS>
-                    <VFOLDER ID="{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}" name="Src"/>
+                    <VFOLDER ID="{823EB4FE-FD9C-46A2-B1FE-AACB7C5EB849}" name="Src depended"/>
+                    <VFOLDER ID="{01D27F02-DA11-475F-B62C-6D61E04CFF97}" name="Src independed"/>
                 </VFOLDERS>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="4">
@@ -293,15 +317,21 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\adecc_File_Dlg_FMX.dll" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\Win32\Debug\adecc_File_Dlg_FMX.dll" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>adecc_File_Dlg_FMX.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\adecc_File_Dlg_FMX.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="..\..\..\..\..\Win32\Debug\adecc_File_Dlg_FMX.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>adecc_File_Dlg_FMX.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\..\..\Win32\Release\adecc_File_Dlg_FMX.dll" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>adecc_File_Dlg_FMX.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

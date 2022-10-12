@@ -3,7 +3,7 @@ object frmMessage: TfrmMessage
   Top = 0
   BorderStyle = bsDialog
   Caption = 'frmMessage'
-  ClientHeight = 446
+  ClientHeight = 404
   ClientWidth = 1394
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,7 +11,7 @@ object frmMessage: TfrmMessage
   Font.Height = -25
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnCreate = FormCreate
   PixelsPerInch = 200
   TextHeight = 35
@@ -19,18 +19,17 @@ object frmMessage: TfrmMessage
     Left = 0
     Top = 0
     Width = 1394
-    Height = 336
+    Height = 294
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
     Margins.Bottom = 6
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1485
-    ExplicitHeight = 598
+    ExplicitHeight = 336
     DesignSize = (
       1394
-      336)
+      294)
     object imgVirtualSymbol: TVirtualImage
       Left = 44
       Top = 32
@@ -46,10 +45,10 @@ object frmMessage: TfrmMessage
       ImageIndex = -1
     end
     object memMessage: TMemo
-      Left = 316
+      Left = 306
       Top = 15
-      Width = 1047
-      Height = 292
+      Width = 1057
+      Height = 267
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6
@@ -63,7 +62,7 @@ object frmMessage: TfrmMessage
   end
   object Panel2: TPanel
     Left = 0
-    Top = 336
+    Top = 294
     Width = 1394
     Height = 110
     Margins.Left = 6
@@ -72,8 +71,7 @@ object frmMessage: TfrmMessage
     Margins.Bottom = 6
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 598
-    ExplicitWidth = 1485
+    ExplicitTop = 336
     object btnOk: TButton
       Left = 17
       Top = 33
