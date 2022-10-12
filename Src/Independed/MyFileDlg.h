@@ -31,7 +31,10 @@ class MyFileLibAPI TMyFileDlg {
       static TMyForm CreateShowFile();
       static TMyForm CreateFileDlg(TFileDlgProcess& proc);
       static TMyForm CreateDirectoryDlg(TFileDlgProcess& proc);
+
    };
+
+//MyFileLibAPI TMyForm CreateInputDlg(void);
 
 
 template<typename ty>

@@ -26,7 +26,6 @@ object frmMessage: TfrmMessage
     Margins.Bottom = 6
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 336
     DesignSize = (
       1394
       294)
@@ -71,7 +70,6 @@ object frmMessage: TfrmMessage
     Margins.Bottom = 6
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 336
     object btnOk: TButton
       Left = 17
       Top = 33
