@@ -19,9 +19,13 @@ __published:	// Von der IDE verwaltete Komponenten
    TLabel *lblRange;
    TButton *btnOk;
    TButton *btnCancel;
+   TButton *btnSelect;
+   void __fastcall FormCreate(TObject *Sender);
+   void __fastcall btnSelectClick(TObject *Sender);
 private:	// Benutzer-Deklarationen
+   int iType = 0;
 public:		// Benutzer-Deklarationen
-   __fastcall TfmInputVCL(TComponent* Owner);
+   __fastcall TfmInputVCL(int pType, TComponent* Owner = nullptr);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfmInputVCL *fmInputVCL;

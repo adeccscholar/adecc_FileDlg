@@ -12,6 +12,7 @@ object fmInputVCL: TfmInputVCL
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnCreate = FormCreate
   PixelsPerInch = 200
   TextHeight = 35
   object Image1: TImage
@@ -366,7 +367,7 @@ object fmInputVCL: TfmInputVCL
   object edtValue: TEdit
     Left = 392
     Top = 119
-    Width = 969
+    Width = 840
     Height = 43
     Margins.Left = 6
     Margins.Top = 6
@@ -401,5 +402,18 @@ object fmInputVCL: TfmInputVCL
     Caption = 'btnCancel'
     ModalResult = 2
     TabOrder = 2
+  end
+  object btnSelect: TButton
+    Left = 1244
+    Top = 115
+    Width = 156
+    Height = 52
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
+    Caption = 'btnSelect'
+    TabOrder = 3
+    OnClick = btnSelectClick
   end
 end

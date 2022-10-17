@@ -3,13 +3,15 @@
 
 #include <BuildFileDlg.h>
 
-#include <MyForm.h>
+#include <MyFramework_String.h>
+#include <MyForm.h>  
 #include <string>
 #include <utility>
 #include <optional>
 #include <stdexcept>
 #include <map>
 #include <tuple>
+#include <filesystem>
 
 class TFileDlgProcess;
 
@@ -27,37 +29,42 @@ class MyFileLibAPI TMyFileDlg {
       static std::pair<EMyRetResults, ty> Input(ty value, std::string const& paCaption = "Eingabedialog", std::string const& paDescription = "Geben Sie einen neuen Wert ein:", std::string const& paRange = ""); 
    private:
       static void InitFileShowForm(TMyForm& frm, std::string const& strFile);
-      static TMyForm CreateInputDlg(void);
       static TMyForm CreateShowFile();
       static TMyForm CreateFileDlg(TFileDlgProcess& proc);
       static TMyForm CreateDirectoryDlg(TFileDlgProcess& proc);
 
+      static TMyForm CreateInputDlg(int = 0);
+      static std::pair<EMyRetResults, fw_String> InputDlg(fw_String const& value, std::string const& paCaption, std::string const& paDescription, std::string const& paRange);
+      static std::pair<EMyRetResults, std::filesystem::path> InputDlg(std::filesystem::path const& value, std::string const& paCaption, std::string const& paDescription, std::string const& paRange);
+
    };
 
-//MyFileLibAPI TMyForm CreateInputDlg(void);
 
 
 template<typename ty>
 inline std::pair<EMyRetResults, ty> TMyFileDlg::Input(ty value, std::string const& paCaption, std::string const& paDescription, std::string const& paRange) {
-  auto frm = CreateInputDlg();
-   frm.SetCaption(paCaption);
-   frm.Set<EMyFrameworkType::label>("lblDescription", paDescription);
-   frm.Set<EMyFrameworkType::label>("lblRange",       paRange);
-   frm.Set<EMyFrameworkType::button>("btnOk",     "Bestätigen");
-   frm.Set<EMyFrameworkType::button>("btnCancel", "Abbruch");
-   frm.Set<EMyFrameworkType::edit>("edtValue", value);
-
-   if(auto ret = frm.ShowModal(); ret == EMyRetResults::ok) {
-      auto val = frm.Get<EMyFrameworkType::edit, ty>("edtValue");
-      if(!val) {
-         return std::make_pair(EMyRetResults::error, ty());
-         }
-      else return std::make_pair(ret, *val);
+   EMyRetResults result;
+   if constexpr (std::is_same <std::filesystem::path, ty>::value) {
+      std::filesystem::path fsPath;
+      if (std::tie(result, fsPath) = InputDlg(value, paCaption, paDescription, paRange); result == EMyRetResults::ok) {
+         return std::make_pair(result, fsPath);
       }
-   else {
-      return std::make_pair(ret, ty());
+      else {
+         return std::make_pair(result, ty());
       }
    }
+
+   else {
+      fw_String strValue = TMy_FW_String::SetText(value);
+      if (std::tie(result, strValue) = InputDlg(strValue, paCaption, paDescription, paRange); result == EMyRetResults::ok) {
+         return std::make_pair(result, TMy_FW_String::GetText<ty>(strValue));
+         }
+      else {
+         return std::make_pair(result, ty());
+         }
+      }
+   }
+
 
 
 

@@ -159,13 +159,13 @@ EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCa
    return frm.ShowModal();      
 }
 
-TMyForm TMyFileDlg::CreateInputDlg(void) {
+TMyForm TMyFileDlg::CreateInputDlg(int iType) {
      #if defined BUILD_WITH_VCL
-   return { new TfmInputVCL(nullptr), true};
+   return { new TfmInputVCL(iType), true};
    #elif defined BUILD_WITH_FMX
-   return { new TfmInputFMX(nullptr), true};
+   return { new TfmInputFMX(iType), true};
    #elif defined BUILD_WITH_QT  
-   return { new InputDlgClass(nullptr), true };
+   return { new InputDlgClass(iType), true };
    #else
       #error No implemetation for the choosen framework
    #endif
@@ -263,4 +263,46 @@ size_t TMyFileDlg::CheckFileSize(std::string const& strFile) {
    return std::count(test.begin(), test.end(), '\n');
 }
 
+std::pair<EMyRetResults, fw_String> TMyFileDlg::InputDlg(fw_String const& value, std::string const& paCaption, std::string const& paDescription, std::string const& paRange) {
+   auto frm = CreateInputDlg();
+   frm.SetCaption(paCaption);
+   frm.Set<EMyFrameworkType::label>("lblDescription", paDescription);
+   frm.Set<EMyFrameworkType::label>("lblRange", paRange);
+   frm.Set<EMyFrameworkType::button>("btnOk", "Bestätigen");
+   frm.Set<EMyFrameworkType::button>("btnCancel", "Abbruch");
+   frm.Set<EMyFrameworkType::edit>("edtValue", value);
+
+   if (auto ret = frm.ShowModal(); ret == EMyRetResults::ok) {
+      auto val = frm.Get<EMyFrameworkType::edit, fw_String>("edtValue");
+      if (!val) {
+         return std::make_pair(EMyRetResults::error, fw_String());
+      }
+      else return std::make_pair(ret, *val);
+   }
+   else {
+      return std::make_pair(ret, fw_String());
+   }
+}
+
+
+std::pair<EMyRetResults, std::filesystem::path> TMyFileDlg::InputDlg(std::filesystem::path const& value, std::string const& paCaption, std::string const& paDescription, std::string const& paRange) {
+   auto frm = CreateInputDlg(1);
+   frm.SetCaption(paCaption);
+   frm.Set<EMyFrameworkType::label>("lblDescription", paDescription);
+   frm.Set<EMyFrameworkType::label>("lblRange", paRange);
+   frm.Set<EMyFrameworkType::button>("btnOk", "Bestätigen");
+   frm.Set<EMyFrameworkType::button>("btnCancel", "Abbruch");
  
+   frm.Set<EMyFrameworkType::edit>("edtValue", value.string());
+
+   if (auto ret = frm.ShowModal(); ret == EMyRetResults::ok) {
+      auto val = frm.Get<EMyFrameworkType::edit, std::string>("edtValue");
+      if (!val) {
+         return std::make_pair(EMyRetResults::error, std::filesystem::path());
+      }
+      else return std::make_pair(ret, std::filesystem::path(*val));
+   }
+   else {
+      return std::make_pair(ret, std::filesystem::path());
+   }
+}

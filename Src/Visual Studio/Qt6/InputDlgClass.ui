@@ -13,90 +13,100 @@
   <property name="windowTitle">
    <string>InputDlgClass</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>-10</y>
-     <width>201</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="FileDlg_Qt/FileDlg.qrc">:/images/my_edit.png</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblDescription">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>30</y>
-     <width>581</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>lblDescription</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblRange">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>100</y>
-     <width>591</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>lblRange</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="edtValue">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>60</y>
-     <width>591</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>edtValue</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnOk">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>140</y>
-     <width>75</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>btnOk</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnCancel">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>140</y>
-     <width>75</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>btnCancel</string>
-   </property>
-  </widget>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="FileDlg_Qt/FileDlg.qrc">:/images/my_edit.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="lblDescription">
+       <property name="text">
+        <string>lblDescription</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="edtValue">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>edtValue</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSelect">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>btnSelect</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblRange">
+       <property name="text">
+        <string>lblRange</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="btnOk">
+         <property name="text">
+          <string>btnOk</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCancel">
+         <property name="text">
+          <string>btnCancel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
