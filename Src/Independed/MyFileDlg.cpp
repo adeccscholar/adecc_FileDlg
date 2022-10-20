@@ -11,6 +11,7 @@
 #include "InputDlgVCL.h"
 #elif defined BUILD_WITH_FMX
 #include "FileDlgFormFMX.h"
+#include "DirectoryDlgFormFMX.h"
 #include "FileShowDlgFMX.h"
 #include "InputDlgFMX.h"
 #include "MessageDlgFMX.h"
@@ -188,7 +189,7 @@ TMyForm TMyFileDlg::CreateDirectoryDlg(TFileDlgProcess& proc) {
    //#error No implemetation for VCL
    return TMyForm(new TfrmDirectoryDlgVCL(proc, nullptr), true);
 #elif defined BUILD_WITH_FMX
-   return TMyForm(new TfrmFileDlgFMX(proc, nullptr), true);
+   return TMyForm(new TfrmDirectoryDlgFMX(proc, nullptr), true);
 #elif defined BUILD_WITH_QT
    return TMyForm(new DirectoryDlgClass(proc, nullptr), true);
 #else

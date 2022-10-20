@@ -17,7 +17,7 @@ object frmDirectoryDlgFMX: TfrmDirectoryDlgFMX
     Size.PlatformDefault = False
     TabOrder = 0
     object lblDrives: TLabel
-      FocusControl = ComboBox1
+      FocusControl = cbxDrives
       Position.X = 32.000000000000000000
       Position.Y = 13.000000000000000000
       Size.Width = 81.000000000000000000
@@ -53,11 +53,11 @@ object frmDirectoryDlgFMX: TfrmDirectoryDlgFMX
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
     end
-    object ComboBox1: TComboBox
+    object cbxDrives: TComboBox
       Position.X = 136.000000000000000000
       Position.Y = 10.000000000000000000
       TabOrder = 4
-      OnChange = ComboBox1Change
+      OnChange = cbxDrivesChange
     end
   end
   object pnlCenter: TPanel

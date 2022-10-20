@@ -50,9 +50,10 @@ void TFileDlgProcess::InitFileDlg(TMyForm& frm) {
          frm.ReadOnly<EMyFrameworkType::edit>("edtFile", false);
          frm.ReadOnly<EMyFrameworkType::edit>("edtPath", true);
          }
-      else
+      else {
+         frm.Set<EMyFrameworkType::label>("lblPath", "Verzeichnis:");
          frm.ReadOnly<EMyFrameworkType::edit>("edtPath", true);
-
+         }
       frm.Set<EMyFrameworkType::edit>      ("edtPath",        "");
       
       frm.Set<EMyFrameworkType::button>    ("btnOk",        "Übernehmen");

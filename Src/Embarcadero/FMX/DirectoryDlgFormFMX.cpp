@@ -20,7 +20,7 @@ void __fastcall TfrmDirectoryDlgFMX::FormCreate(TObject *Sender)
 frm.Set(this, false);   
 }
 //---------------------------------------------------------------------------
-void __fastcall TfrmDirectoryDlgFMX::ComboBox1Change(TObject *Sender)
+void __fastcall TfrmDirectoryDlgFMX::cbxDrivesChange(TObject *Sender)
 {
 process.ChangeDrives(frm);   
 }

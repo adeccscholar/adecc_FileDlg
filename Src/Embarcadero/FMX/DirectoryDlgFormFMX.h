@@ -24,13 +24,13 @@ __published:	// Von der IDE verwaltete Komponenten
    TLabel *lblDrives;
    TLabel *lblPath;
    TLabel *lblDirectories;
-   TComboBox *ComboBox1;
+   TComboBox *cbxDrives;
    TEdit *edtPath;
    TListBox *lbDirectories;
    TButton *btnOk;
    TButton *btnCancel;
    void __fastcall FormCreate(TObject *Sender);
-   void __fastcall ComboBox1Change(TObject *Sender);
+   void __fastcall cbxDrivesChange(TObject *Sender);
    void __fastcall lbDirectoriesDblClick(TObject *Sender);
    void __fastcall btnOkClick(TObject *Sender);
 private:	// Benutzer-Deklarationen

@@ -36,11 +36,22 @@
     </layout>
    </item>
    <item>
-    <widget class="QLineEdit" name="edtPath">
-     <property name="text">
-      <string>edtPath</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="lblPath">
+       <property name="text">
+        <string>lblPath</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="edtPath">
+       <property name="text">
+        <string>edtPath</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="lblDirectories">
