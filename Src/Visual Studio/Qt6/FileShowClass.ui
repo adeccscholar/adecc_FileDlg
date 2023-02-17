@@ -22,6 +22,9 @@
        <pointsize>11</pointsize>
       </font>
      </property>
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
     </widget>
    </item>
    <item>
