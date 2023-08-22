@@ -39,6 +39,7 @@ __recovery
 *.skincfg
 
 # special directories
+x64
 Win32
 Win64
 Release
