@@ -1,5 +1,5 @@
 #include "MessageDlgClass.h"
-#include "MyStdTypes.h"
+#include "adecc_Scholar/MyStdTypes.h"
 
 
 MessageDlgClass::MessageDlgClass(EMyMessageType paType, QWidget *parent)

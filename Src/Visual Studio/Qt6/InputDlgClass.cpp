@@ -1,6 +1,7 @@
 #include "InputDlgClass.h"
-#include "MyForm.h"
 #include "MyFileDlg.h"
+
+#include "adecc_Scholar/MyForm.h"
 
 InputDlgClass::InputDlgClass(int iType, QWidget *parent)
     : QDialog(parent)

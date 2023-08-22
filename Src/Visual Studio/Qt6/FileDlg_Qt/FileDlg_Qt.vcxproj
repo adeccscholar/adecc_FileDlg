@@ -62,14 +62,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)..\..\..\Independed;$(ProjectDir)..\..\..\AuswertungQT;$(ProjectDir)..\..\..\..\..\adecc_scholar\adecc_scholar;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)..\..\..\Independed;$(ProjectDir)..\..\..\AuswertungQT;$(ProjectDir)..\..\..\..\..\adecc_scholar;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)..\..\..\Independed;$(ProjectDir)..\..\..\AuswertungQT;$(ProjectDir)..\..\..\..\..\adecc_scholar\adecc_scholar;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)..\..\..\Independed;$(ProjectDir)..\..\..\AuswertungQT;$(ProjectDir)..\..\..\..\..\adecc_scholar;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

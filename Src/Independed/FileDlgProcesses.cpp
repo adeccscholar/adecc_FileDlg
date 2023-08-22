@@ -3,8 +3,8 @@
 
 #include "FileDlgProcesses.h"
 
-#include "MyForm.h"
-#include "MyTools.h"
+#include "adecc_Scholar/MyForm.h"
+#include "adecc_Scholar/MyTools.h"
 
 #include <MyFileException.h>
 

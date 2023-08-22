@@ -2,7 +2,7 @@
 #define MyFileExceptionH
 
 #include <BuildFileDlg.h>
-#include <MyStdTypes.h>
+#include <adecc_Scholar/MyStdTypes.h>
 
 #include <string>
 #include <stdexcept>

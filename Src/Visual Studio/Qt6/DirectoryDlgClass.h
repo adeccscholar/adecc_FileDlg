@@ -2,7 +2,7 @@
 
 #include <QDialog>
 #include "ui_DirectoryDlgClass.h"
-#include "MyForm.h"
+#include "adecc_Scholar/MyForm.h"
 
 class TFileDlgProcess;
 

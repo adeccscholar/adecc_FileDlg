@@ -26,8 +26,8 @@
 #endif
 
 #include <MyFileException.h>
-#include <MyForm.h>
 #include "FileDlgProcesses.h"
+#include <adecc_Scholar/MyForm.h>
 
 #include <fstream>
 #include <locale>

@@ -3,8 +3,8 @@
 
 #include <BuildFileDlg.h>
 
-#include <MyFramework_String.h>
-#include <MyForm.h>  
+#include <adecc_Scholar/MyFramework_String.h>
+#include <adecc_Scholar/MyForm.h>  
 #include <string>
 #include <utility>
 #include <optional>
