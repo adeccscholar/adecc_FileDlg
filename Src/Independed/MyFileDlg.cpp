@@ -129,7 +129,7 @@ std::pair<EMyRetResults, std::string> TMyFileDlg::SelectWithFileDirDlg(std::opti
 
 
 
-EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage) {
+EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage, std::string const& paDetails) {
   TMyForm frm; 
   #if defined BUILD_WITH_VCL
       auto fw_frm = new TfrmMessage(paType, nullptr);
@@ -144,6 +144,7 @@ EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCa
    #endif
    frm.SetCaption(paCaption);
    frm.Set<EMyFrameworkType::memo>("memMessage", paMessage);
+   frm.Set<EMyFrameworkType::memo>("memDetails", paDetails);
    frm.Set<EMyFrameworkType::button>("btnOk", "Ja");
    frm.Set<EMyFrameworkType::button>("btnNo", "Nein");
    frm.Set<EMyFrameworkType::button>("btnCancel", "Abbruch");

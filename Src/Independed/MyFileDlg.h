@@ -13,6 +13,8 @@
 #include <tuple>
 #include <filesystem>
 
+using namespace std::string_literals;
+
 class TFileDlgProcess;
 
 class MyFileLibAPI TMyFileDlg {
@@ -23,10 +25,10 @@ class MyFileLibAPI TMyFileDlg {
       static void LoadFile(std::wostream& stream, std::string const& strFile);
       static size_t CheckFileSize(std::string const& strFile);
       static std::tuple<std::wifstream, const size_t> OpenInputFile(std::string const& strFile);
-      static EMyRetResults Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage);
+      static EMyRetResults Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage, std::string const& paDetails = ""s);
       
       template<typename ty>
-      static std::pair<EMyRetResults, ty> Input(ty value, std::string const& paCaption = "Eingabedialog", std::string const& paDescription = "Geben Sie einen neuen Wert ein:", std::string const& paRange = ""); 
+      static std::pair<EMyRetResults, ty> Input(ty value, std::string const& paCaption = "Eingabedialog"s, std::string const& paDescription = "Geben Sie einen neuen Wert ein:"s, std::string const& paRange = ""s); 
    private:
       static void InitFileShowForm(TMyForm& frm, std::string const& strFile);
       static TMyForm CreateShowFile();
