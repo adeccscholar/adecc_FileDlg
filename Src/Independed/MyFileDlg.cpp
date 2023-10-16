@@ -21,7 +21,7 @@
 #include "DirectoryDlgClass.h"
 #include "MessageDlgClass.h"
 #include "InputDlgClass.h"
-#include "ConsolClass.h"     // muss noch für VCL / FMX angepasst werden
+//#include "ConsolClass.h"     // muss noch für VCL / FMX angepasst werden
 #else
 #error framework not defined
 #endif
