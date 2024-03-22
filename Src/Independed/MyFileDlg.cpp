@@ -21,6 +21,7 @@
 #include "DirectoryDlgClass.h"
 #include "MessageDlgClass.h"
 #include "InputDlgClass.h"
+#include "UserDlg.h"  // broken for VCL / FMX
 //#include "ConsolClass.h"     // muss noch für VCL / FMX angepasst werden
 #else
 #error framework not defined
@@ -174,6 +175,40 @@ EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCa
    return frm.ShowModal();      
 }
 
+std::tuple <bool, std::optional<std::string>, std::optional<std::string>, std::optional<bool>> 
+      TMyFileDlg::UserLoginDlg(std::string const& strTheme, bool boHasIntegrated, std::optional<std::string> const& strUser, bool boIntegrated) {
+   TMyForm dlg;
+   #if defined BUILD_WITH_VCL
+      dlg.Set(new TfrmUserDlgVCL(nullptr), true);
+   #elif defined BUILD_WITH_FMX
+      dlg.Set(new TfrmUserDlgFMX( nullptr), true);
+   #elif defined BUILD_WITH_QT
+      dlg.Set(new UserDlg(nullptr), true);
+   #else
+      #error no implementation for this framework
+   #endif
+
+   dlg.SetCaption(strTheme);
+   dlg.Set<EMyFrameworkType::groupbox, std::string>("grpUser", "credentials");
+
+   dlg.Set<EMyFrameworkType::label, std::string>("lblUser", "user:");
+   dlg.Set<EMyFrameworkType::edit, std::string>("edtUser", strUser.value_or(""));
+   dlg.Set<EMyFrameworkType::label, std::string>("lblPassword", "password:");
+   dlg.Set<EMyFrameworkType::edit, std::string>("edtPassword","");
+   dlg.Set< EMyFrameworkType::checkbox, std::string>("chbIntegrated", "use integrated security");
+
+   dlg.Set<EMyFrameworkType::button, std::string>("btnOk", "login");
+   dlg.Set<EMyFrameworkType::button, std::string>("btnCancel", "cancel");
+
+   if (dlg.ShowModal() == EMyRetResults::ok) {
+      auto strUser = dlg.Get<EMyFrameworkType::edit, std::string>("edtUser").value_or("");
+      auto strPwd = dlg.Get<EMyFrameworkType::edit, std::string>("edtPassword").value_or("");
+      auto boIntegrated = dlg.Get<EMyFrameworkType::checkbox, bool>("chbIntegrated").value_or(false);
+      return { true, strUser, strPwd, boIntegrated };
+      }
+   else return { false, { }, { }, { } };
+   }
+
 TMyForm TMyFileDlg::CreateInputDlg(int iType) {
      #if defined BUILD_WITH_VCL
    return { new TfmInputVCL(iType), true};
@@ -256,16 +291,16 @@ void TMyFileDlg::LoadFile(std::wostream& stream, std::string const& strFile) {
       stream << strBuff;
       }
    catch (my_file_information const& ex) {
-      throw my_file_runtime_error(ex, MY_POSITION());
+      throw my_file_runtime_error(ex, my_source_position(__func__, __FILE__, __LINE__));
       }
    catch(std::ios_base::failure const& ex) {
       if (ex.code() == std::make_error_condition(std::io_errc::stream))
-         throw my_file_runtime_error(strFile, static_cast<std::errc>(errno), MY_POSITION());
+         throw my_file_runtime_error(strFile, static_cast<std::errc>(errno), my_source_position(__func__, __FILE__, __LINE__));
       else
-         throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
+         throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), my_source_position(__func__, __FILE__, __LINE__));
       }
    catch (std::system_error const& ex) {
-      throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), MY_POSITION());
+      throw my_file_runtime_error(strFile, static_cast<std::errc>(ex.code().value()), my_source_position(__func__, __FILE__, __LINE__));
       }
   }
 

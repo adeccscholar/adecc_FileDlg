@@ -42,6 +42,7 @@ public:
 class MyFileLibAPI my_file_dlg_error : public std::runtime_error {
 public:
    my_file_dlg_error(std::string const& pMsg) : std::runtime_error(pMsg) { }
+   my_file_dlg_error(my_file_dlg_error const&) = default;
 };
 
 class MyFileLibAPI my_file_runtime_error : public std::runtime_error, public my_file_information {
@@ -51,6 +52,8 @@ private:
 public:
    my_file_runtime_error(std::string const& pSrc, std::errc value, my_source_position&& pPos) : std::runtime_error(errc_messages[value].second),
       my_file_information(pSrc, value), thePosition(std::forward<my_source_position>(pPos)) { }
+
+   my_file_runtime_error(my_file_runtime_error const&) = default;
 
    my_file_runtime_error(my_file_information const& info, my_source_position&& pPos) 
           : std::runtime_error(info.GetInformation()), my_file_information(info), thePosition(std::forward<my_source_position>(pPos)) { }

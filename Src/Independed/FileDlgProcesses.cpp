@@ -94,7 +94,7 @@ void TFileDlgProcess::ChangeDrives(TMyForm& frm) {
    #if !defined BUILD_WITH_FMX
    // !!!!! Problems with fmx events
    else {
-      throw my_filedlg_exception("TFileDlgProcess", strChangeDrivesEmpty, MY_POSITION());
+      throw my_filedlg_exception("TFileDlgProcess"s, strChangeDrivesEmpty, my_source_position(__func__, __FILE__, __LINE__));
       }
    #endif
    }
@@ -190,7 +190,7 @@ void TFileDlgProcess::ChangeDirectory(TMyForm& frm) {
 void TFileDlgProcess::ChangeFiles(TMyForm& frm) {
    if (!boDirectory_only) {
       auto selected = frm.GetSelectedRows<EMyFrameworkType::listbox>("lbFiles");
-      if (selected.size() > 1u) throw my_filedlg_exception("TFileDlgProcess", strMultipleFiles, MY_POSITION());
+      if (selected.size() > 1u) throw my_filedlg_exception("TFileDlgProcess"s, strMultipleFiles, my_source_position(__func__, __FILE__, __LINE__));
       if (selected.size() == 1u) frm.Set<EMyFrameworkType::edit>("edtFile", frm.GetValue<EMyFrameworkType::listbox, std::string>("lbFiles", selected[0]));
       else  frm.Set<EMyFrameworkType::edit>("edtFile", "");
       }
@@ -222,9 +222,9 @@ void TFileDlgProcess::ClickDirectory(TMyForm& frm) {
          frm.Set<EMyFrameworkType::edit>("edtPath", pa.string());
          ChangeDirectory(frm);
          }
-      else throw my_filedlg_exception("TFileDlgProcess", strPathFieldEmpty, MY_POSITION());
+      else throw my_filedlg_exception("TFileDlgProcess"s, strPathFieldEmpty, my_source_position(__func__, __FILE__, __LINE__));
       }
-   else throw my_filedlg_exception("TFileDlgProcess", strDirectoriesEmpty, MY_POSITION());
+   else throw my_filedlg_exception("TFileDlgProcess"s, strDirectoriesEmpty, my_source_position(__func__, __FILE__, __LINE__));
    }
 
 

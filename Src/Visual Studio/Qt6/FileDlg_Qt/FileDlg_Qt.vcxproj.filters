@@ -31,6 +31,9 @@
     <ClCompile Include="..\..\..\Independed\MyFileException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\UserDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="filedlg_qt_global.h">
@@ -74,6 +77,9 @@
     <QtMoc Include="..\InputDlgClass.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\UserDlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FileDlg.qrc" />
@@ -92,6 +98,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\DirectoryDlgClass.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\UserDlg.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
