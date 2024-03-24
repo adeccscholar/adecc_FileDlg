@@ -1,0 +1,84 @@
+object frmUserDlgFMX: TfrmUserDlgFMX
+  Left = 0
+  Top = 0
+  BorderStyle = Single
+  Caption = 'Form2'
+  ClientHeight = 209
+  ClientWidth = 483
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object grpUser: TGroupBox
+    Position.X = 16.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 401.000000000000000000
+    Size.Height = 121.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'grpUser'
+    TabOrder = 1
+    object lblUser: TLabel
+      FocusControl = edtUser
+      Position.X = 24.000000000000000000
+      Position.Y = 31.000000000000000000
+      TextSettings.Trimming = None
+      Text = 'lblUser'
+      TabOrder = 38
+    end
+    object lblPassword: TLabel
+      FocusControl = edtPassword
+      Position.X = 24.000000000000000000
+      Position.Y = 61.000000000000000000
+      TextSettings.Trimming = None
+      Text = 'lblPassword'
+      TabOrder = 39
+    end
+    object edtUser: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 40
+      Position.X = 160.000000000000000000
+      Position.Y = 26.000000000000000000
+      Size.Width = 225.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtPassword: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 41
+      Position.X = 160.000000000000000000
+      Position.Y = 56.000000000000000000
+      Size.Width = 225.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object chbIntegrated: TCheckBox
+      Position.X = 24.000000000000000000
+      Position.Y = 86.000000000000000000
+      Size.Width = 361.000000000000000000
+      Size.Height = 19.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 42
+      Text = 'chbIntegrated'
+    end
+  end
+  object btnOk: TButton
+    Position.X = 112.000000000000000000
+    Position.Y = 160.000000000000000000
+    Size.Width = 113.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    Text = 'btnOk'
+    TextSettings.Trimming = None
+  end
+  object btnCancel: TButton
+    Position.X = 240.000000000000000000
+    Position.Y = 160.000000000000000000
+    Size.Width = 113.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Text = 'btnCancel'
+    TextSettings.Trimming = None
+  end
+end

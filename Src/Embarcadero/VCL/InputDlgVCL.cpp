@@ -6,7 +6,7 @@
 #include "InputDlgVCL.h"
 
 #include "MyFileDlg.h"
-#include "MyForm.h"
+#include <adecc_Scholar/MyForm.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"

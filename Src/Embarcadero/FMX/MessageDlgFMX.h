@@ -15,8 +15,9 @@
 #include <FMX.Memo.Types.hpp>
 #include <FMX.ScrollBox.hpp>
 #include <FMX.StdCtrls.hpp>
+#include <FMX.TabControl.hpp>
 //---------------------------------------------------------------------------
-#include "MyStdTypes.h"
+#include <adecc_Scholar/MyStdTypes.h>
 
 class TfrmMessageDlgFMX : public TForm
 {
@@ -30,6 +31,10 @@ __published:	// Von der IDE verwaltete Komponenten
    TImage *imgWarning;
    TImage *imgError;
    TImage *imgQuestion;
+	TTabControl *TabControl1;
+	TTabItem *tabMessage;
+	TTabItem *tabDetails;
+	TMemo *memDetails;
    void __fastcall FormCreate(TObject *Sender);
 private:	// Benutzer-Deklarationen
    EMyMessageType msgType;

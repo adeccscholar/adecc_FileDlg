@@ -3,23 +3,23 @@ object fmInputVCL: TfmInputVCL
   Top = 0
   BorderStyle = bsDialog
   Caption = 'fmInputVCL'
-  ClientHeight = 419
-  ClientWidth = 1439
+  ClientHeight = 402
+  ClientWidth = 1381
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -25
+  Font.Height = -24
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 200
-  TextHeight = 35
+  PixelsPerInch = 192
+  TextHeight = 32
   object Image1: TImage
-    Left = 34
-    Top = 51
-    Width = 269
-    Height = 273
+    Left = 33
+    Top = 49
+    Width = 258
+    Height = 262
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -343,10 +343,10 @@ object fmInputVCL: TfmInputVCL
       510AC0FF03A31805AF2A38CB640000000049454E44AE426082}
   end
   object lblDescription: TLabel
-    Left = 392
-    Top = 69
-    Width = 154
-    Height = 35
+    Left = 376
+    Top = 66
+    Width = 147
+    Height = 32
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -354,10 +354,10 @@ object fmInputVCL: TfmInputVCL
     Caption = 'lblDescription'
   end
   object lblRange: TLabel
-    Left = 392
-    Top = 204
-    Width = 97
-    Height = 35
+    Left = 376
+    Top = 196
+    Width = 93
+    Height = 32
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -365,10 +365,10 @@ object fmInputVCL: TfmInputVCL
     Caption = 'lblRange'
   end
   object edtValue: TEdit
-    Left = 392
-    Top = 119
-    Width = 840
-    Height = 43
+    Left = 376
+    Top = 114
+    Width = 807
+    Height = 40
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -377,10 +377,10 @@ object fmInputVCL: TfmInputVCL
     Text = 'edtValue'
   end
   object btnOk: TButton
-    Left = 392
-    Top = 306
-    Width = 156
-    Height = 52
+    Left = 376
+    Top = 294
+    Width = 150
+    Height = 50
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -391,10 +391,10 @@ object fmInputVCL: TfmInputVCL
     TabOrder = 1
   end
   object btnCancel: TButton
-    Left = 613
-    Top = 306
-    Width = 156
-    Height = 52
+    Left = 588
+    Top = 294
+    Width = 150
+    Height = 50
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
@@ -404,10 +404,10 @@ object fmInputVCL: TfmInputVCL
     TabOrder = 2
   end
   object btnSelect: TButton
-    Left = 1244
-    Top = 115
-    Width = 156
-    Height = 52
+    Left = 1194
+    Top = 110
+    Width = 150
+    Height = 50
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6

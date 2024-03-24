@@ -1,0 +1,117 @@
+object frmUserDlgVCL: TfrmUserDlgVCL
+  Left = 0
+  Top = 0
+  Margins.Left = 6
+  Margins.Top = 6
+  Margins.Right = 6
+  Margins.Bottom = 6
+  BorderStyle = bsDialog
+  Caption = 'frmUserDlgVCL'
+  ClientHeight = 423
+  ClientWidth = 882
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -24
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  PixelsPerInch = 192
+  TextHeight = 32
+  object grpUser: TGroupBox
+    Left = 80
+    Top = 48
+    Width = 721
+    Height = 241
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
+    Caption = 'grpUser'
+    TabOrder = 0
+    object lblUser: TLabel
+      Left = 48
+      Top = 51
+      Width = 73
+      Height = 32
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
+      Caption = 'lblUser'
+      FocusControl = edtUser
+    end
+    object lblPassword: TLabel
+      Left = 48
+      Top = 103
+      Width = 123
+      Height = 32
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
+      Caption = 'lblPassword'
+    end
+    object edtUser: TEdit
+      Left = 240
+      Top = 48
+      Width = 433
+      Height = 40
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
+      TabOrder = 0
+      Text = 'edtUser'
+    end
+    object edtPassword: TEdit
+      Left = 240
+      Top = 100
+      Width = 433
+      Height = 40
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
+      PasswordChar = '*'
+      TabOrder = 1
+      Text = 'edtPassword'
+    end
+    object chbIntegrated: TCheckBox
+      Left = 48
+      Top = 160
+      Width = 625
+      Height = 34
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
+      Caption = 'chbIntegrated'
+      TabOrder = 2
+    end
+  end
+  object btnOk: TButton
+    Left = 224
+    Top = 336
+    Width = 225
+    Height = 50
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
+    Caption = 'btnOk'
+    Default = True
+    TabOrder = 1
+  end
+  object btnCancel: TButton
+    Left = 480
+    Top = 336
+    Width = 225
+    Height = 50
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
+    Caption = 'btnCancel'
+    TabOrder = 2
+  end
+end
