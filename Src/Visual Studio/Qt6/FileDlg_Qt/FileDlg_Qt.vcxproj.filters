@@ -34,6 +34,9 @@
     <ClCompile Include="..\UserDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\ConsolClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="filedlg_qt_global.h">
@@ -80,6 +83,9 @@
     <QtMoc Include="..\UserDlg.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\ConsolClass.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="FileDlg.qrc" />
@@ -101,6 +107,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\UserDlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\ConsolClass.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -26,8 +26,9 @@ class MyFileLibAPI TMyFileDlg {
       static size_t CheckFileSize(std::string const& strFile);
       static std::tuple<std::wifstream, const size_t> OpenInputFile(std::string const& strFile);
       static EMyRetResults Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage, std::string const& paDetails = ""s);
+      
       static std::tuple<bool, std::optional<std::string>, std::optional<std::string>, std::optional<bool>> UserLoginDlg(std::string const& strTheme, bool boHasIntegrated, std::optional<std::string> const& strUser, bool boIntegrated);
-      //[[nodiscard]] static std::pair<TMyForm&&, std::ostream&&> Console(void);
+      [[nodiscard]] static std::pair<TMyForm&&, std::ostream&&> Console(void);
 
       template<typename ty>
       static std::pair<EMyRetResults, ty> Input(ty value, std::string const& paCaption = "Eingabedialog"s, std::string const& paDescription = "Geben Sie einen neuen Wert ein:"s, std::string const& paRange = ""s); 

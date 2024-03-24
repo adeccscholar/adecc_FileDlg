@@ -6,5 +6,6 @@ ConsolClass::ConsolClass(QWidget *parent)
     ui.setupUi(this);
 }
 
+
 ConsolClass::~ConsolClass()
 {}

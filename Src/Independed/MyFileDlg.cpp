@@ -21,8 +21,8 @@
 #include "DirectoryDlgClass.h"
 #include "MessageDlgClass.h"
 #include "InputDlgClass.h"
-#include "UserDlg.h"  // broken for VCL / FMX
-//#include "ConsolClass.h"     // muss noch für VCL / FMX angepasst werden
+#include "UserDlg.h"         // broken for VCL / FMX
+#include "ConsolClass.h"     // need to adapted for VCL / FMX
 #else
 #error framework not defined
 #endif
@@ -53,7 +53,7 @@ void TMyFileDlg::OpenFileAction(std::string const& strFile) {
    }
 }
 
-/*
+
 std::pair<TMyForm&&, std::ostream&&> TMyFileDlg::Console(void) {
    TMyForm frm;
 #if defined BUILD_WITH_QT
@@ -64,7 +64,7 @@ std::pair<TMyForm&&, std::ostream&&> TMyFileDlg::Console(void) {
    return { std::forward<TMyForm>(frm), 
             std::forward<std::ostream>(std::ostream(frm.GetAsStreamBuff<Narrow, EMyFrameworkType::memo>("memText"s))) };
 }
-*/
+
 
 TMyForm TMyFileDlg::CreateShowFile() {
 #if defined BUILD_WITH_VCL
