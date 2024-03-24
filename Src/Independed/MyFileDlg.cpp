@@ -4,25 +4,29 @@
 #include "MyFileDlg.h"
 
 #if defined BUILD_WITH_VCL
-#include "FileDlgFormVCL.h"
-#include "DirectoryDlgFormVCL.h"
-#include "FileShowFormVCL.h"
-#include "MessageDlg.h"
-#include "InputDlgVCL.h"
+  #include "ConsoleDlgVCL.h"
+  #include "DirectoryDlgFormVCL.h"
+  #include "FileDlgFormVCL.h"
+  #include "FileShowFormVCL.h"
+  #include "InputDlgVCL.h"
+  #include "MessageDlg.h"
+  #include "UserDlgVCL.h"
 #elif defined BUILD_WITH_FMX
-#include "FileDlgFormFMX.h"
-#include "DirectoryDlgFormFMX.h"
-#include "FileShowDlgFMX.h"
-#include "InputDlgFMX.h"
-#include "MessageDlgFMX.h"
+  #include "ConsoleDlgFMX.h"
+  #include "DirectoryDlgFormFMX.h"
+  #include "FileDlgFormFMX.h"
+  #include "FileShowDlgFMX.h"
+  #include "InputDlgFMX.h"
+  #include "MessageDlgFMX.h"
+  #include "UserDlgFMX.h"
 #elif defined BUILD_WITH_QT
-#include "FileDlgClass.h"
-#include "FileShowClass.h"
-#include "DirectoryDlgClass.h"
-#include "MessageDlgClass.h"
-#include "InputDlgClass.h"
-#include "UserDlg.h"         // broken for VCL / FMX
-#include "ConsolClass.h"     // need to adapted for VCL / FMX
+  #include "FileDlgClass.h"
+  #include "FileShowClass.h"
+  #include "DirectoryDlgClass.h"
+  #include "MessageDlgClass.h"
+  #include "InputDlgClass.h"
+  #include "UserDlg.h"
+  #include "ConsolClass.h"
 #else
 #error framework not defined
 #endif
@@ -41,23 +45,27 @@ namespace fs = std::filesystem;
 
 void TMyFileDlg::OpenFileAction(std::string const& strFile) {
    try {
-      auto frm = CreateShowFile();
-      InitFileShowForm(frm, strFile);
-      frm.ShowModal();
+	  auto frm = CreateShowFile();
+	  InitFileShowForm(frm, strFile);
+	  frm.ShowModal();
    }
    catch (std::exception& ex) {
-      TMyFileDlg::Message(EMyMessageType::error, "File App", ex.what());
+	  TMyFileDlg::Message(EMyMessageType::error, "File App", ex.what());
    }
    catch (...) {
-      TMyFileDlg::Message(EMyMessageType::error, "File App", "unexpected exception occured");
+	  TMyFileDlg::Message(EMyMessageType::error, "File App", "unexpected exception occured");
    }
 }
 
 
 std::pair<TMyForm&&, std::ostream&&> TMyFileDlg::Console(void) {
    TMyForm frm;
-#if defined BUILD_WITH_QT
-   frm.Set(new ConsolClass(nullptr), true); 
+#if defined BUILD_WITH_VCL
+   frm.Set(new TfrmConsoleDlgVCL(nullptr), true);
+#elif defined BUILD_WITH_FMX
+   frm.Set(new TfrmConsoleDlgFMX(nullptr), true);
+#elif defined BUILD_WITH_QT
+   frm.Set(new ConsolClass(nullptr), true);
 #else
 #error Implementation missed
 #endif
@@ -175,17 +183,16 @@ EMyRetResults TMyFileDlg::Message(EMyMessageType paType, std::string const& paCa
    return frm.ShowModal();      
 }
 
-std::tuple <bool, std::optional<std::string>, std::optional<std::string>, std::optional<bool>> 
-      TMyFileDlg::UserLoginDlg(std::string const& strTheme, bool boHasIntegrated, std::optional<std::string> const& strUser, bool boIntegrated) {
+MyFileDlgUserDlgRet TMyFileDlg::UserLoginDlg(std::string const& strTheme, bool boHasIntegrated, std::optional<std::string> const& strUser, bool boIntegrated) {
    TMyForm dlg;
    #if defined BUILD_WITH_VCL
-      dlg.Set(new TfrmUserDlgVCL(nullptr), true);
+	  dlg.Set(new TfrmUserDlgVCL(nullptr), true);
    #elif defined BUILD_WITH_FMX
-      dlg.Set(new TfrmUserDlgFMX( nullptr), true);
+	  dlg.Set(new TfrmUserDlgFMX( nullptr), true);
    #elif defined BUILD_WITH_QT
-      dlg.Set(new UserDlg(nullptr), true);
+	  dlg.Set(new UserDlg(nullptr), true);
    #else
-      #error no implementation for this framework
+	  #error no implementation for this framework
    #endif
 
    dlg.SetCaption(strTheme);
@@ -201,29 +208,37 @@ std::tuple <bool, std::optional<std::string>, std::optional<std::string>, std::o
    dlg.Set<EMyFrameworkType::button, std::string>("btnCancel", "cancel");
 
    if (dlg.ShowModal() == EMyRetResults::ok) {
-      auto strUser = dlg.Get<EMyFrameworkType::edit, std::string>("edtUser").value_or("");
-      auto strPwd = dlg.Get<EMyFrameworkType::edit, std::string>("edtPassword").value_or("");
-      auto boIntegrated = dlg.Get<EMyFrameworkType::checkbox, bool>("chbIntegrated").value_or(false);
-      return { true, strUser, strPwd, boIntegrated };
-      }
+	  auto strUser = dlg.Get<EMyFrameworkType::edit, std::string>("edtUser").value_or("");
+	  auto strPwd = dlg.Get<EMyFrameworkType::edit, std::string>("edtPassword").value_or("");
+	  auto boIntegrated = dlg.Get<EMyFrameworkType::checkbox, bool>("chbIntegrated").value_or(false);
+	  #if defined BUILD_WITH_VCL || defined BUILD_WITH_FMX
+	  return MyFileDlgUserDlgRet { true, std::optional<std::string> { strUser }, std::optional<std::string> { strPwd }, std::optional<bool> { boIntegrated } };
+	  #else
+	  return { true, strUser, strPwd, boIntegrated };
+	  #endif
+	  }
+   #if defined BUILD_WITH_VCL || defined BUILD_WITH_FMX
+   else return MyFileDlgUserDlgRet { false, std::nullopt, std::nullopt, std::nullopt };
+   #else
    else return { false, { }, { }, { } };
+   #endif
    }
 
 TMyForm TMyFileDlg::CreateInputDlg(int iType) {
-     #if defined BUILD_WITH_VCL
+	 #if defined BUILD_WITH_VCL
    return { new TfmInputVCL(iType), true};
    #elif defined BUILD_WITH_FMX
    return { new TfmInputFMX(iType), true};
-   #elif defined BUILD_WITH_QT  
+   #elif defined BUILD_WITH_QT
    return { new InputDlgClass(iType), true };
    #else
-      #error No implemetation for the choosen framework
+	  #error No implemetation for the choosen framework
    #endif
   }
 
 TMyForm TMyFileDlg::CreateFileDlg(TFileDlgProcess& proc) {
    #if defined BUILD_WITH_VCL
-      return TMyForm(new TfrmFileDlg(proc, nullptr), true);
+	  return TMyForm(new TfrmFileDlg(proc, nullptr), true);
    #elif defined BUILD_WITH_FMX
       return TMyForm(new TfrmFileDlgFMX(proc, nullptr), true);
    #elif defined BUILD_WITH_QT

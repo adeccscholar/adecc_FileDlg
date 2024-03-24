@@ -1,39 +1,41 @@
 object frmMessage: TfrmMessage
   Left = 0
   Top = 0
+  Margins.Left = 2
+  Margins.Top = 2
+  Margins.Right = 2
+  Margins.Bottom = 2
   BorderStyle = bsDialog
   Caption = 'frmMessage'
-  ClientHeight = 404
-  ClientWidth = 1394
+  ClientHeight = 385
+  ClientWidth = 1318
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -25
+  Font.Height = -24
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 200
-  TextHeight = 35
+  PixelsPerInch = 192
+  TextHeight = 32
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1394
-    Height = 294
+    Width = 1318
+    Height = 279
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
     Margins.Bottom = 6
     Align = alClient
     TabOrder = 0
-    DesignSize = (
-      1394
-      294)
+    ExplicitHeight = 218
     object imgVirtualSymbol: TVirtualImage
-      Left = 44
-      Top = 32
-      Width = 219
-      Height = 219
+      Left = 42
+      Top = 30
+      Width = 210
+      Height = 210
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6
@@ -43,38 +45,86 @@ object frmMessage: TfrmMessage
       ImageHeight = 0
       ImageIndex = -1
     end
-    object memMessage: TMemo
-      Left = 306
-      Top = 15
-      Width = 1057
-      Height = 267
+    object PageControl1: TPageControl
+      Left = 264
+      Top = 16
+      Width = 1062
+      Height = 251
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6
       Margins.Bottom = 6
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      Lines.Strings = (
-        'memMessage')
-      ScrollBars = ssVertical
+      ActivePage = tabMessage
       TabOrder = 0
+      object tabMessage: TTabSheet
+        Margins.Left = 6
+        Margins.Top = 6
+        Margins.Right = 6
+        Margins.Bottom = 6
+        Caption = 'Message'
+        object memMessage: TMemo
+          Left = 0
+          Top = 0
+          Width = 1046
+          Height = 191
+          Margins.Left = 6
+          Margins.Top = 6
+          Margins.Right = 6
+          Margins.Bottom = 6
+          Align = alClient
+          Lines.Strings = (
+            'memMessage')
+          ScrollBars = ssVertical
+          TabOrder = 0
+          ExplicitTop = 96
+          ExplicitHeight = 246
+        end
+      end
+      object tabDetails: TTabSheet
+        Margins.Left = 6
+        Margins.Top = 6
+        Margins.Right = 6
+        Margins.Bottom = 6
+        Caption = 'Details'
+        ImageIndex = 1
+        object memDetails: TMemo
+          Left = 0
+          Top = 0
+          Width = 1046
+          Height = 191
+          Margins.Left = 6
+          Margins.Top = 6
+          Margins.Right = 6
+          Margins.Bottom = 6
+          Align = alClient
+          Lines.Strings = (
+            'memDetails')
+          TabOrder = 0
+          ExplicitLeft = 416
+          ExplicitTop = 101
+          ExplicitWidth = 186
+          ExplicitHeight = 90
+        end
+      end
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 294
-    Width = 1394
-    Height = 110
+    Top = 279
+    Width = 1318
+    Height = 106
     Margins.Left = 6
     Margins.Top = 6
     Margins.Right = 6
     Margins.Bottom = 6
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 218
     object btnOk: TButton
-      Left = 17
-      Top = 33
-      Width = 205
-      Height = 52
+      Left = 16
+      Top = 32
+      Width = 198
+      Height = 50
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6
@@ -85,10 +135,10 @@ object frmMessage: TfrmMessage
       TabOrder = 0
     end
     object btnCancel: TButton
-      Left = 510
-      Top = 33
-      Width = 205
-      Height = 52
+      Left = 490
+      Top = 32
+      Width = 196
+      Height = 50
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6
@@ -98,10 +148,10 @@ object frmMessage: TfrmMessage
       TabOrder = 1
     end
     object btnNo: TButton
-      Left = 256
-      Top = 33
-      Width = 205
-      Height = 52
+      Left = 246
+      Top = 32
+      Width = 196
+      Height = 50
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6

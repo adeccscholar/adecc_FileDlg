@@ -10,8 +10,12 @@
 #include <System.ImageList.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.ImgList.hpp>
+#include <Vcl.BaseImageCollection.hpp>
+#include <Vcl.ImageCollection.hpp>
+#include <Vcl.VirtualImage.hpp>
+#include <Vcl.ComCtrls.hpp>
 //---------------------------------------------------------------------------
-#include "MyStdTypes.h"
+#include <adecc_Scholar\MyStdTypes.h>
 #include <Vcl.BaseImageCollection.hpp>
 #include <Vcl.ImageCollection.hpp>
 #include <Vcl.VirtualImage.hpp>
@@ -27,6 +31,10 @@ __published:	// Von der IDE verwaltete Komponenten
    TButton *btnNo;
    TImageCollection *lstImages;
    TVirtualImage *imgVirtualSymbol;
+	TPageControl *PageControl1;
+	TTabSheet *tabMessage;
+	TTabSheet *tabDetails;
+	TMemo *memDetails;
    void __fastcall FormCreate(TObject *Sender);
 private:	// Benutzer-Deklarationen
    EMyMessageType msgType;

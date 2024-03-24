@@ -38,3 +38,4 @@ void __fastcall TfrmMessage::FormCreate(TObject *Sender) {
    
    }
 //---------------------------------------------------------------------------
+
