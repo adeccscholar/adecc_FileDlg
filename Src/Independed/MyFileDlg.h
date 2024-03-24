@@ -21,15 +21,15 @@ using MyFileDlgUserDlgRet = std::tuple<bool, std::optional<std::string>, std::op
 
 class MyFileLibAPI TMyFileDlg {
    public:
-	  static std::pair<EMyRetResults, std::string> SelectWithFileDirDlg(std::optional<std::string> const& path, bool parDirOnly = false);
-	  static void OpenFileAction(std::string const& strFile);
+	   static std::pair<EMyRetResults, std::string> SelectWithFileDirDlg(std::optional<std::string> const& path, bool parDirOnly = false);
+	   static void OpenFileAction(std::string const& strFile);
 
-	  static void LoadFile(std::wostream& stream, std::string const& strFile);
-	  static size_t CheckFileSize(std::string const& strFile);
-	  static std::tuple<std::wifstream, const size_t> OpenInputFile(std::string const& strFile);
-	  static EMyRetResults Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage, std::string const& paDetails = ""s);
+	   static void LoadFile(std::wostream& stream, std::string const& strFile);
+	   static size_t CheckFileSize(std::string const& strFile);
+	   static std::tuple<std::wifstream, const size_t> OpenInputFile(std::string const& strFile);
+	   static EMyRetResults Message(EMyMessageType paType, std::string const& paCaption, std::string const& paMessage, std::string const& paDetails = ""s);
 
-	  MyFileDlgUserDlgRet UserLoginDlg(std::string const& strTheme, bool boHasIntegrated, std::optional<std::string> const& strUser, bool boIntegrated);
+      [[nodiscard]] static MyFileDlgUserDlgRet UserLoginDlg(std::string const& strTheme, bool boHasIntegrated, std::optional<std::string> const& strUser, bool boIntegrated);
       [[nodiscard]] static std::pair<TMyForm&&, std::ostream&&> Console(void);
 
       template<typename ty>
